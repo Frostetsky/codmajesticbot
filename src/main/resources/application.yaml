@@ -1,0 +1,10 @@
+discord:
+  token: MTQ3NTIwMDA1NTU2Mzc4NDM5NQ.GAWp8Z.uFniRa3o6yPOL7cSMfLKVFVXYMksRKhQye2pVk
+  button:
+    ids:
+      application-in-family: id1
+      create-personal-branch: id2
+
+logging:
+  level:
+    root: info
