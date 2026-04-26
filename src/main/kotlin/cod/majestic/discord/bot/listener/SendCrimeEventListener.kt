@@ -6,6 +6,7 @@ import cod.majestic.discord.bot.model.enums.RoleType
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
+import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.text.TextInput
@@ -21,11 +22,6 @@ class SendCrimeEventListener : ListenerAdapter() {
 
             val modal = Modal.create("send_crime_info_event", "Информация о крайм-событии.")
                 .addActionRows(
-                    ActionRow.of(
-                        TextInput.create("crime_event_type", "Тип события (MCL, VZZ, CAPT, GG, RP, VZM)", TextInputStyle.SHORT)
-                            .setRequired(true)
-                            .build()
-                    ),
                     ActionRow.of(
                         TextInput.create(
                             "crime_event_server",
@@ -45,6 +41,10 @@ class SendCrimeEventListener : ListenerAdapter() {
 
             event.replyModal(modal).queue()
         }
+    }
+
+    override fun onGenericSelectMenuInteraction(event: GenericSelectMenuInteractionEvent<*, *>) {
+        super.onGenericSelectMenuInteraction(event)
     }
 
     override fun onModalInteraction(event: ModalInteractionEvent) {

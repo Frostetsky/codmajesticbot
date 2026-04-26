@@ -1,14 +1,21 @@
 package cod.majestic.discord.bot.model.enums
 
 enum class EventCrimeType(
-    private val description: String
+    val description: String
 ) {
 
-    CAPT("капт"),
-    MCL("мцл"),
-    GG("гг"),
-    VZZ("взз"),
-    VZM("взм"),
-    RP("рп");
+    CAPT("Капт"),
+    MCL("MCL"),
+    GG("Ган-гейм"),
+    STRELA("Стрела"),
+    VZZ("ВЗЗ"),
+    VZM("ВЗМ"),
+    CEHA("Цеха"),
+    DILLERS("Диллеры"),
+    POSTAVKA("Поставка"),
+    DROP("Дроп"),
+    TAINIKI("Тайники");
+
+    fun getRp() = listOf(CEHA, DILLERS, POSTAVKA, DROP, TAINIKI)
 
 }
