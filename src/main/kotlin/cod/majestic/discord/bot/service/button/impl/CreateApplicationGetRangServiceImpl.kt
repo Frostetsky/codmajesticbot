@@ -14,7 +14,7 @@ class CreateApplicationGetRangServiceImpl(
     override fun createAndSendButton() {
         val guild = jda.guilds.first()
         val channel = guild.textChannels
-            .find { it.name.contains("\uD83D\uDD2B・заявки-на-получение-ранга") } ?: return
+            .find { it.name == "\uD83D\uDD2B・заявки-на-получение-ранга" } ?: return
 
         channel.history.retrievePast(20).queue { messages ->
             val alreadyExists = messages.any { message ->

@@ -17,11 +17,23 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
             val guild = event.guild ?: return
             val member = event.member ?: return
 
+            val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Тиры"}!!
             val existingChannel = guild.textChannels
-                .firstOrNull { it.name == "заявка-на-получение-ранга-${member.id}" }
+                .firstOrNull { it.name == "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}" }
+
+            val sanitizeUserName = sanitizeUsername(member.user.name)
+
+            val personalBranchChannel = guild.textChannels.find { extractUsernameFromChannel(it.name) == sanitizeUserName }
 
             if (existingChannel != null) {
                 event.reply("❌ У вас уже есть активная заявка: ${existingChannel.asMention}")
+                    .setEphemeral(true)
+                    .queue()
+                return
+            }
+
+            if (personalBranchChannel == null) {
+                event.reply("❌ У вас нет личной ветки.")
                     .setEphemeral(true)
                     .queue()
                 return
@@ -36,13 +48,59 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
 
             val deputyRole = guild.roles.find { it.name == RoleCod.DEPUTY_LEADER.nameInDiscord } ?: return
             val leaderRole = guild.roles.find { it.name == RoleCod.LEADER.nameInDiscord } ?: return
-            val highRole = guild.roles.find { it.name == RoleCod.HIGH.nameInDiscord } ?: return
+            val recruiterRole = guild.roles.find { it.name == RoleCod.RECRUITER.nameInDiscord } ?: return
+            val mediaRole = guild.roles.find { it.name == RoleCod.MEDIA.nameInDiscord } ?: return
+            val rpRole = guild.roles.find { it.name == RoleCod.RP.nameInDiscord } ?: return
+            val tegRole = guild.roles.find { it.name == RoleCod.TEG.nameInDiscord } ?: return
+            val mainRole = guild.roles.find { it.name == RoleCod.MAIN.nameInDiscord } ?: return
+            val mainPlusRole = guild.roles.find { it.name == RoleCod.MAIN_PLUS.nameInDiscord } ?: return
+            val codRole = guild.roles.find { it.name == RoleCod.COD.nameInDiscord } ?: return
 
-            val channelName = "заявка-на-получение-ранга-${member.user.name}".lowercase()
+            val channelName = "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}"
 
-            guild.createTextChannel(channelName)
+            categoryGetRang.createTextChannel(channelName)
                 .addPermissionOverride(
                     guild.publicRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    recruiterRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mediaRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mediaRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    rpRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    tegRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mainRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mainPlusRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    codRole,
                     null,
                     listOf(Permission.VIEW_CHANNEL)
                 )
@@ -61,11 +119,6 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                     listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                     null
                 )
-                .addPermissionOverride(
-                    highRole,
-                    listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
-                    null
-                )
                 .queue { createdChannel ->
 
                     val message =
@@ -73,6 +126,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                     📋 **Заявка на получение ранга**
 
                     Запрос от пользователя: ${member.asMention}.
+                    Личная ветка пользователя: ${personalBranchChannel.asMention}
                     Просьба пересмотреть мой текущий ранг и выдать ${getMessageByPriorityRole(member.roles)}.
                     Ниже прикрепляю все необходимые доказательства.
                     
@@ -83,7 +137,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                     ).setActionRow(
                         Button.success("approve_main_get_rang_${member.id}", "Выдать MAIN"),
                         Button.danger("approve_main_plus_get_rang_${member.id}", "Выдать MAIN PLUS"),
-                        Button.primary("approve_cod_get_rang_${member.id}", "Выдать CoD")
+                        Button.primary("approve_cod_get_rang_${member.id}", "Выдать COD")
                     ).queue()
 
                     event.reply("Заявка создана: ${createdChannel.asMention}")
@@ -94,8 +148,13 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
     }
 
     private fun getMessageByPriorityRole(roles: List<Role>): String {
+        val isRp = roles.any { it.name == RoleCod.RP.nameInDiscord }
         val isCod = roles.any { it.name == RoleCod.COD.nameInDiscord }
         val isMain = roles.any { it.name == RoleCod.MAIN.nameInDiscord }
+
+        if (isRp) {
+            return RoleCod.COD.nameInDiscord
+        }
 
         if (isCod) {
             return RoleCod.MAIN.nameInDiscord
@@ -106,5 +165,29 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
         }
 
         throw UnsupportedOperationException("Неизвестно какой ранг запрашивает участник семьи. Произошёл конфликт ролей.")
+    }
+
+    /**
+     * Удаляет все запрещенные символы из username для использования в названии текстового канала
+     * Разрешены: a-z, A-Z, 0-9, _
+     * Все остальные символы (включая . , - пробелы и т.д.) удаляются
+     */
+    private fun sanitizeUsername(username: String): String = username.replace("[^a-zA-Z0-9_]".toRegex(), "")
+
+    /**
+     * Извлекает username из имени канала формата "личная-ветка-{username}"
+     *
+     * @param channelName Имя канала (например, "личная-ветка-userofrq")
+     * @return Извлеченный username или null, если формат не совпадает
+     */
+    private fun extractUsernameFromChannel(channelName: String): String? {
+
+        val prefix = "\uD83D\uDEB9・личная-ветка-"
+
+        if (channelName.startsWith(prefix)) {
+            return channelName.substring(prefix.length)
+        }
+
+        return null;
     }
 }

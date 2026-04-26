@@ -10,12 +10,14 @@ enum class EventCrimeType(
     STRELA("Стрела"),
     VZZ("ВЗЗ"),
     VZM("ВЗМ"),
+    FZ("ФЗ"),
+    OSTROV("Остров"),
     CEHA("Цеха"),
     DILLERS("Диллеры"),
     POSTAVKA("Поставка"),
     DROP("Дроп"),
     TAINIKI("Тайники");
 
-    fun getRp() = listOf(CEHA, DILLERS, POSTAVKA, DROP, TAINIKI)
+    fun getRp() = listOf(CEHA, DILLERS, POSTAVKA, DROP, TAINIKI, FZ, OSTROV)
 
 }

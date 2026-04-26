@@ -76,8 +76,8 @@ class ActiveApplicationGetRangListener : ListenerAdapter() {
                 val rpRole = guild.roles.find { it.name == RoleType.RP.nameInDiscord }
 
                 codRole?.let {
-                    guild.removeRoleFromMember(targetMember, rpRole!!).queue()
                     guild.addRoleToMember(targetMember, it).queue()
+                    guild.removeRoleFromMember(targetMember, rpRole!!).queue()
                 }
 
                 channel.delete().queue()

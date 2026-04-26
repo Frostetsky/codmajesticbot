@@ -6,18 +6,21 @@ import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu
 object EventCrimeMenuBuilder {
 
     fun get() =
-        StringSelectMenu.create("")
-            .addOption(EventCrimeType.MCL.name, EventCrimeType.MCL.description)
-            .addOption(EventCrimeType.CAPT.name, EventCrimeType.CAPT.description)
-            .addOption(EventCrimeType.VZM.name, EventCrimeType.VZM.description)
-            .addOption(EventCrimeType.VZZ.name, EventCrimeType.VZZ.description)
-            .addOption(EventCrimeType.GG.name, EventCrimeType.GG.description)
-            .addOption(EventCrimeType.DILLERS.name, EventCrimeType.DILLERS.description)
-            .addOption(EventCrimeType.CEHA.name, EventCrimeType.CEHA.description)
-            .addOption(EventCrimeType.POSTAVKA.name, EventCrimeType.POSTAVKA.description)
-            .addOption(EventCrimeType.DROP.name, EventCrimeType.DROP.description)
-            .addOption(EventCrimeType.TAINIKI.name, EventCrimeType.TAINIKI.description)
-            .addOption(EventCrimeType.STRELA.name, EventCrimeType.STRELA.description)
+        StringSelectMenu.create("crime_type_select")
+            .setPlaceholder("Выберите тип события")
+            .addOption(EventCrimeType.MCL.description, EventCrimeType.MCL.name)
+            .addOption(EventCrimeType.CAPT.description, EventCrimeType.CAPT.name)
+            .addOption(EventCrimeType.VZM.description, EventCrimeType.VZM.name)
+            .addOption(EventCrimeType.VZZ.description, EventCrimeType.VZZ.name)
+            .addOption(EventCrimeType.GG.description, EventCrimeType.GG.name)
+            .addOption(EventCrimeType.DILLERS.description, EventCrimeType.DILLERS.name)
+            .addOption(EventCrimeType.CEHA.description, EventCrimeType.CEHA.name)
+            .addOption(EventCrimeType.POSTAVKA.description, EventCrimeType.POSTAVKA.name)
+            .addOption(EventCrimeType.FZ.description, EventCrimeType.FZ.name)
+            .addOption(EventCrimeType.OSTROV.description, EventCrimeType.OSTROV.name)
+            .addOption(EventCrimeType.DROP.description, EventCrimeType.DROP.name)
+            .addOption(EventCrimeType.TAINIKI.description, EventCrimeType.TAINIKI.name)
+            .addOption(EventCrimeType.STRELA.description, EventCrimeType.STRELA.name)
             .build()
 
 }

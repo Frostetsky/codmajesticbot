@@ -6,26 +6,27 @@ import cod.majestic.discord.bot.model.enums.RoleType
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
-import net.dv8tion.jda.api.events.interaction.component.GenericSelectMenuInteractionEvent
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.text.TextInput
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.api.interactions.modals.Modal
 import org.springframework.stereotype.Component
+import org.springframework.util.StringUtils
 
 @Component
 class SendCrimeEventListener : ListenerAdapter() {
 
-    override fun onButtonInteraction(event: ButtonInteractionEvent) {
-        if (event.componentId == "send_crime_event") {
-
-            val modal = Modal.create("send_crime_info_event", "Информация о крайм-событии.")
+    override fun onStringSelectInteraction(event: StringSelectInteractionEvent) {
+        if (event.componentId == "crime_type_select") {
+            val typeCrime = event.values[0]
+            val modal = Modal.create("send_crime_info_event_${typeCrime}", "Информация о крайм-событии.")
                 .addActionRows(
                     ActionRow.of(
                         TextInput.create(
                             "crime_event_server",
-                            "Сервер (просто указать цифру). Для сервера MCL укажите 0",
+                            "Сервер (цифра). Для сервера MCL укажите 0",
                             TextInputStyle.SHORT
                         )
                             .setRequired(true)
@@ -43,17 +44,13 @@ class SendCrimeEventListener : ListenerAdapter() {
         }
     }
 
-    override fun onGenericSelectMenuInteraction(event: GenericSelectMenuInteractionEvent<*, *>) {
-        super.onGenericSelectMenuInteraction(event)
-    }
-
     override fun onModalInteraction(event: ModalInteractionEvent) {
-        if (event.modalId != "send_crime_info_event") return
+        if (!event.modalId.contains("send_crime_info_event_")) return
 
         val guild = event.guild ?: return
         val member = event.member ?: return
 
-        val crimeEventTypeString = event.getValue("crime_event_type")!!.asString
+        val crimeEventTypeString = event.modalId.replace("send_crime_info_event_", "")
         val crimeEventServerString = event.getValue("crime_event_server")!!.asString
         val crimeEventUrlString = event.getValue("crime_event_url")!!.asString
 
@@ -93,8 +90,8 @@ class SendCrimeEventListener : ListenerAdapter() {
                 )
                 .addPermissionOverride(
                     member,
-                    listOf(Permission.VIEW_CHANNEL),
-                    listOf(Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_SEND_IN_THREADS, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS)
+                    listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_SEND_IN_THREADS, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS),
+                    null
                 )
                 .addPermissionOverride(
                     deputyRole,
@@ -130,7 +127,7 @@ class SendCrimeEventListener : ListenerAdapter() {
         } else {
             personalBranchChannel.sendMessage(
                 """
-                    📋 **Событие ${crimeEventTypeResult.getOrNull()}**
+                    📋 **Событие ${crimeEventTypeResult.getOrNull()?.description}**
 
                     Сервер: ${crimeEventServerResult.getOrNull()?.getNameServer()}
                     Ссылка: $crimeEventUrlString
