@@ -1,9 +1,7 @@
 package cod.majestic.discord.bot.config
 
-import cod.majestic.discord.bot.listener.ActiveApplicationInFamilyListener
-import cod.majestic.discord.bot.listener.CreateApplicationInFamilyListener
-import cod.majestic.discord.bot.listener.SendCrimeEventListener
 import cod.majestic.discord.bot.config.properties.DiscordProperties
+import cod.majestic.discord.bot.listener.*
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -17,7 +15,9 @@ class DiscordConfiguration(
 
     @Bean
     fun jda(sendCrimeEventListener: SendCrimeEventListener,
+            activeApplicationGetRangListener: ActiveApplicationGetRangListener,
             activeApplicationInFamilyListener: ActiveApplicationInFamilyListener,
+            createApplicationGetRangListener: CreateApplicationGetRangListener,
             createApplicationInFamilyListener: CreateApplicationInFamilyListener
     ) : JDA {
         return JDABuilder.createDefault(discordProperties.token)
@@ -29,6 +29,8 @@ class DiscordConfiguration(
             .addEventListeners(
                 sendCrimeEventListener,
                 activeApplicationInFamilyListener,
+                createApplicationGetRangListener,
+                activeApplicationGetRangListener,
                 createApplicationInFamilyListener
             )
             .build()

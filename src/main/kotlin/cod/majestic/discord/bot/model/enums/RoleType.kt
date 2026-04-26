@@ -8,7 +8,7 @@ enum class RoleType(
     DEPUTY_LEADER("DEPUTY LEADER"),
     HIGH("HIGH"),
     RECRUITER("RECRUITER"),
-    COD("CoD"),
+    COD("COD"),
     RP("RP"),
     TEG("TEG"),
     MAIN("MAIN"),

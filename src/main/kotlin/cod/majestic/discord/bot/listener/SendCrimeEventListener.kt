@@ -29,7 +29,7 @@ class SendCrimeEventListener : ListenerAdapter() {
                     ActionRow.of(
                         TextInput.create(
                             "crime_event_server",
-                            "Сервер (просто указать цифру). Для сервера MCL укажите 0",
+                            "Сервер (цифра). Для сервера MCL укажите 0",
                             TextInputStyle.SHORT
                         )
                             .setRequired(true)
@@ -93,8 +93,8 @@ class SendCrimeEventListener : ListenerAdapter() {
                 )
                 .addPermissionOverride(
                     member,
-                    listOf(Permission.VIEW_CHANNEL),
-                    listOf(Permission.MESSAGE_SEND, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_SEND_IN_THREADS, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS)
+                    listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_SEND_IN_THREADS, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS),
+                    null
                 )
                 .addPermissionOverride(
                     deputyRole,

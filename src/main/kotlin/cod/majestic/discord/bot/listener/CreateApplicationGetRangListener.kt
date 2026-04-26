@@ -38,7 +38,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
             val leaderRole = guild.roles.find { it.name == RoleCod.LEADER.nameInDiscord } ?: return
             val highRole = guild.roles.find { it.name == RoleCod.HIGH.nameInDiscord } ?: return
 
-            val channelName = "заявка-на-получение-ранга-${member.user.name}".lowercase()
+            val channelName = "заявка-на-получение-ранга-${member.id}"
 
             guild.createTextChannel(channelName)
                 .addPermissionOverride(
@@ -83,7 +83,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                     ).setActionRow(
                         Button.success("approve_main_get_rang_${member.id}", "Выдать MAIN"),
                         Button.danger("approve_main_plus_get_rang_${member.id}", "Выдать MAIN PLUS"),
-                        Button.primary("approve_cod_get_rang_${member.id}", "Выдать CoD")
+                        Button.primary("approve_cod_get_rang_${member.id}", "Выдать COD")
                     ).queue()
 
                     event.reply("Заявка создана: ${createdChannel.asMention}")
@@ -94,8 +94,13 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
     }
 
     private fun getMessageByPriorityRole(roles: List<Role>): String {
+        val isRp = roles.any { it.name == RoleCod.RP.nameInDiscord }
         val isCod = roles.any { it.name == RoleCod.COD.nameInDiscord }
         val isMain = roles.any { it.name == RoleCod.MAIN.nameInDiscord }
+
+        if (isRp) {
+            return RoleCod.COD.nameInDiscord
+        }
 
         if (isCod) {
             return RoleCod.MAIN.nameInDiscord
