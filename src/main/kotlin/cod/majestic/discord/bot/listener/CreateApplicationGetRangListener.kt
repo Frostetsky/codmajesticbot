@@ -48,13 +48,59 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
 
             val deputyRole = guild.roles.find { it.name == RoleCod.DEPUTY_LEADER.nameInDiscord } ?: return
             val leaderRole = guild.roles.find { it.name == RoleCod.LEADER.nameInDiscord } ?: return
-            val highRole = guild.roles.find { it.name == RoleCod.HIGH.nameInDiscord } ?: return
+            val recruiterRole = guild.roles.find { it.name == RoleCod.RECRUITER.nameInDiscord } ?: return
+            val mediaRole = guild.roles.find { it.name == RoleCod.MEDIA.nameInDiscord } ?: return
+            val rpRole = guild.roles.find { it.name == RoleCod.RP.nameInDiscord } ?: return
+            val tegRole = guild.roles.find { it.name == RoleCod.TEG.nameInDiscord } ?: return
+            val mainRole = guild.roles.find { it.name == RoleCod.MAIN.nameInDiscord } ?: return
+            val mainPlusRole = guild.roles.find { it.name == RoleCod.MAIN_PLUS.nameInDiscord } ?: return
+            val codRole = guild.roles.find { it.name == RoleCod.COD.nameInDiscord } ?: return
 
             val channelName = "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}"
 
             categoryGetRang.createTextChannel(channelName)
                 .addPermissionOverride(
                     guild.publicRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    recruiterRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mediaRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mediaRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    rpRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    tegRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mainRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    mainPlusRole,
+                    null,
+                    listOf(Permission.VIEW_CHANNEL)
+                )
+                .addPermissionOverride(
+                    codRole,
                     null,
                     listOf(Permission.VIEW_CHANNEL)
                 )
@@ -70,11 +116,6 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                 )
                 .addPermissionOverride(
                     leaderRole,
-                    listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
-                    null
-                )
-                .addPermissionOverride(
-                    highRole,
                     listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                     null
                 )

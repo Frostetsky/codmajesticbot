@@ -9,6 +9,7 @@ enum class RoleType(
     HIGH("HIGH"),
     RECRUITER("RECRUITER"),
     COD("COD"),
+    MEDIA("MEDIA"),
     RP("RP"),
     TEG("TEG"),
     MAIN("MAIN"),

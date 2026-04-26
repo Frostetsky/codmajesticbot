@@ -16,6 +16,8 @@ object EventCrimeMenuBuilder {
             .addOption(EventCrimeType.DILLERS.description, EventCrimeType.DILLERS.name)
             .addOption(EventCrimeType.CEHA.description, EventCrimeType.CEHA.name)
             .addOption(EventCrimeType.POSTAVKA.description, EventCrimeType.POSTAVKA.name)
+            .addOption(EventCrimeType.FZ.description, EventCrimeType.FZ.name)
+            .addOption(EventCrimeType.OSTROV.description, EventCrimeType.OSTROV.name)
             .addOption(EventCrimeType.DROP.description, EventCrimeType.DROP.name)
             .addOption(EventCrimeType.TAINIKI.description, EventCrimeType.TAINIKI.name)
             .addOption(EventCrimeType.STRELA.description, EventCrimeType.STRELA.name)
