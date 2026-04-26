@@ -1,5 +1,6 @@
 package cod.majestic.discord.bot.service.button.impl
 
+import cod.majestic.discord.bot.builder.EventCrimeMenuBuilder
 import cod.majestic.discord.bot.service.button.SendCrimeEventService
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.interactions.components.buttons.Button
@@ -17,28 +18,18 @@ class SendCrimeEventServiceImpl(
             .find { it.name.contains("\uD83C\uDFEE・откаты") } ?: return
 
         channel.history.retrievePast(20).queue { messages ->
-            val alreadyExists = messages.any { message ->
-                isBot(message.author.id, jda.selfUser.id) && existMessage(message.contentRaw)
-            }
+            val alreadyExists = messages.any { message -> isBot(message.author.id, jda.selfUser.id) }
 
             if (!alreadyExists) {
-                val button = Button.danger(
-                    "send_crime_event",
-                    "Отправить откат (MCL, VZZ, CAPT, GG, RP, VZM)"
-                )
-
-                channel.sendMessage("Нажмите ниже чтобы отправить откат. Укажите категорию, сервер, приложите ссылку.")
-                    .setActionRow(button)
+                val selectMenu = EventCrimeMenuBuilder.get()
+                channel.sendMessage("Нажмите ниже чтобы отправить откат. Укажите сервер, приложите ссылку.")
+                    .setActionRow(selectMenu)
                     .queue()
             }
         }
     }
 
     fun isBot(messageUserId: String, botUserId: String) = messageUserId == botUserId
-
-    fun existMessage(message: String) = message.contains(
-        "Нажмите ниже чтобы отправить откат. Укажите категорию, дату и время, приложите ссылку."
-    )
 
     override fun afterPropertiesSet() {
         createAndSendButton()

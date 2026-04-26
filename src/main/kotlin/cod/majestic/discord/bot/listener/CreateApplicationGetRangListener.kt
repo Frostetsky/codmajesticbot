@@ -17,11 +17,23 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
             val guild = event.guild ?: return
             val member = event.member ?: return
 
+            val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Тиры"}!!
             val existingChannel = guild.textChannels
-                .firstOrNull { it.name == "заявка-на-получение-ранга-${member.id}" }
+                .firstOrNull { it.name == "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}" }
+
+            val sanitizeUserName = sanitizeUsername(member.user.name)
+
+            val personalBranchChannel = guild.textChannels.find { extractUsernameFromChannel(it.name) == sanitizeUserName }
 
             if (existingChannel != null) {
                 event.reply("❌ У вас уже есть активная заявка: ${existingChannel.asMention}")
+                    .setEphemeral(true)
+                    .queue()
+                return
+            }
+
+            if (personalBranchChannel == null) {
+                event.reply("❌ У вас нет личной ветки.")
                     .setEphemeral(true)
                     .queue()
                 return
@@ -38,9 +50,9 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
             val leaderRole = guild.roles.find { it.name == RoleCod.LEADER.nameInDiscord } ?: return
             val highRole = guild.roles.find { it.name == RoleCod.HIGH.nameInDiscord } ?: return
 
-            val channelName = "заявка-на-получение-ранга-${member.id}"
+            val channelName = "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}"
 
-            guild.createTextChannel(channelName)
+            categoryGetRang.createTextChannel(channelName)
                 .addPermissionOverride(
                     guild.publicRole,
                     null,
@@ -73,6 +85,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                     📋 **Заявка на получение ранга**
 
                     Запрос от пользователя: ${member.asMention}.
+                    Личная ветка пользователя: ${personalBranchChannel.asMention}
                     Просьба пересмотреть мой текущий ранг и выдать ${getMessageByPriorityRole(member.roles)}.
                     Ниже прикрепляю все необходимые доказательства.
                     
@@ -111,5 +124,29 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
         }
 
         throw UnsupportedOperationException("Неизвестно какой ранг запрашивает участник семьи. Произошёл конфликт ролей.")
+    }
+
+    /**
+     * Удаляет все запрещенные символы из username для использования в названии текстового канала
+     * Разрешены: a-z, A-Z, 0-9, _
+     * Все остальные символы (включая . , - пробелы и т.д.) удаляются
+     */
+    private fun sanitizeUsername(username: String): String = username.replace("[^a-zA-Z0-9_]".toRegex(), "")
+
+    /**
+     * Извлекает username из имени канала формата "личная-ветка-{username}"
+     *
+     * @param channelName Имя канала (например, "личная-ветка-userofrq")
+     * @return Извлеченный username или null, если формат не совпадает
+     */
+    private fun extractUsernameFromChannel(channelName: String): String? {
+
+        val prefix = "\uD83D\uDEB9・личная-ветка-"
+
+        if (channelName.startsWith(prefix)) {
+            return channelName.substring(prefix.length)
+        }
+
+        return null;
     }
 }
