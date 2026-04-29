@@ -28,6 +28,17 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 channel.delete().queue()
             }
 
+            event.componentId.startsWith("salary_reject_application_") -> {
+                if (!hasLeaderPermissions(member)) {
+                    event.reply("Недостаточно прав.")
+                        .setEphemeral(true)
+                        .queue()
+                    return
+                }
+
+                channel.delete().queue()
+            }
+
             event.componentId.startsWith("approve_application_") -> {
                 if (!hasLeaderPermissions(member)) {
                     event.reply("Недостаточно прав.")
@@ -39,10 +50,30 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 val targetId = event.componentId.removePrefix("approve_application_")
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
-                val codRole = guild.roles.find { it.name == RoleType.COD.nameInDiscord }
+                val rpRole = guild.roles.find { it.name == RoleType.RP.nameInDiscord }
                 val tegRole = guild.roles.find { it.name == RoleType.TEG.nameInDiscord }
 
-                codRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+                rpRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+                tegRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+
+                channel.delete().queue()
+            }
+
+            event.componentId.startsWith("salary_approve_application_") -> {
+                if (!hasLeaderPermissions(member)) {
+                    event.reply("Недостаточно прав.")
+                        .setEphemeral(true)
+                        .queue()
+                    return
+                }
+
+                val targetId = event.componentId.removePrefix("salary_approve_application_")
+                val targetMember = guild.retrieveMemberById(targetId).complete()
+
+                val mainRole = guild.roles.find { it.name == RoleType.MAIN.nameInDiscord }
+                val tegRole = guild.roles.find { it.name == RoleType.TEG.nameInDiscord }
+
+                mainRole?.let { guild.addRoleToMember(targetMember, it).queue() }
                 tegRole?.let { guild.addRoleToMember(targetMember, it).queue() }
 
                 channel.delete().queue()
@@ -55,6 +86,7 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
             it.name == RoleType.LEADER.nameInDiscord
                     || it.name == RoleType.DEPUTY_LEADER.nameInDiscord
                     || it.name == RoleType.HIGH.nameInDiscord
+                    || it.name == RoleType.RECRUITER.nameInDiscord
         }
     }
 }

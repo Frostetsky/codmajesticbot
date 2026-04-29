@@ -80,8 +80,9 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
         val deputyRole = guild.roles.find { it.name == RoleType.DEPUTY_LEADER.nameInDiscord } ?: return
         val leaderRole = guild.roles.find { it.name == RoleType.LEADER.nameInDiscord } ?: return
         val highRole = guild.roles.find { it.name == RoleType.HIGH.nameInDiscord } ?: return
+        val recruiterRole = guild.roles.find { it.name == RoleType.RECRUITER.nameInDiscord } ?: return
 
-        val channelName = "заявка-в-семью-${member.user.name}".lowercase()
+        val channelName = "заявка-в-семью-${member.id}"
 
         guild.createTextChannel(channelName)
             .addPermissionOverride(
@@ -109,6 +110,11 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                 null
             )
+            .addPermissionOverride(
+                recruiterRole,
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
+                null
+            )
             .queue { createdChannel ->
 
                 val message =
@@ -117,7 +123,7 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
 
                     Пользователь: ${member.asMention}
                   
-                    Реальное имя, игровой никнейм, staticID, возраст:: $name
+                    Реальное имя, игровой никнейм, staticID, возраст: $name
                     Опыт игры на Majestic RP (по времени) и средний онлайн: $gameExperience
                     В каких семьях был? Причины ухода? $lastFamilies
                     Твои ожидания от семьи? $expectationsFromFamily

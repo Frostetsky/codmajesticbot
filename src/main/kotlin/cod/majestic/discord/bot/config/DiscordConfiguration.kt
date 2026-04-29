@@ -18,7 +18,10 @@ class DiscordConfiguration(
             activeApplicationGetRangListener: ActiveApplicationGetRangListener,
             activeApplicationInFamilyListener: ActiveApplicationInFamilyListener,
             createApplicationGetRangListener: CreateApplicationGetRangListener,
-            createApplicationInFamilyListener: CreateApplicationInFamilyListener
+            createApplicationInFamilyListener: CreateApplicationInFamilyListener,
+            createSalaryApplicationInFamilyListener: CreateSalaryApplicationInFamilyListener,
+            detailsAnalyseOtkatListener: DetailsAnalyseOtkatListener,
+            approveDetailsAnalyseOtkatListener: ApproveDetailsAnalyseOtkatListener
     ) : JDA {
         return JDABuilder.createDefault(discordProperties.token)
             .enableIntents(
@@ -31,7 +34,10 @@ class DiscordConfiguration(
                 activeApplicationInFamilyListener,
                 createApplicationGetRangListener,
                 activeApplicationGetRangListener,
-                createApplicationInFamilyListener
+                createApplicationInFamilyListener,
+                createSalaryApplicationInFamilyListener,
+                detailsAnalyseOtkatListener,
+                approveDetailsAnalyseOtkatListener
             )
             .build()
             .awaitReady()
