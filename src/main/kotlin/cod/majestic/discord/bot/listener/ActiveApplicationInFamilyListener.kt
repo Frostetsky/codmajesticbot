@@ -50,11 +50,27 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 val targetId = event.componentId.removePrefix("approve_application_")
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
-                val rpRole = guild.roles.find { it.name == RoleType.RP.nameInDiscord }
-                val tegRole = guild.roles.find { it.name == RoleType.TEG.nameInDiscord }
+                val rpRole = guild.roles.find { it.name == RoleType.TEST.nameInDiscord }
 
                 rpRole?.let { guild.addRoleToMember(targetMember, it).queue() }
-                tegRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+
+                channel.delete().queue()
+            }
+
+            event.componentId.startsWith("waiting_call_") -> {
+                if (!hasLeaderPermissions(member)) {
+                    event.reply("Недостаточно прав.")
+                        .setEphemeral(true)
+                        .queue()
+                    return
+                }
+
+                val targetId = event.componentId.removePrefix("waiting_call_")
+                val targetMember = guild.retrieveMemberById(targetId).complete()
+
+                val rpRole = guild.roles.find { it.name == RoleType.WAITING_CALL.nameInDiscord }
+
+                rpRole?.let { guild.addRoleToMember(targetMember, it).queue() }
 
                 channel.delete().queue()
             }
@@ -71,10 +87,8 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val mainRole = guild.roles.find { it.name == RoleType.MAIN.nameInDiscord }
-                val tegRole = guild.roles.find { it.name == RoleType.TEG.nameInDiscord }
 
                 mainRole?.let { guild.addRoleToMember(targetMember, it).queue() }
-                tegRole?.let { guild.addRoleToMember(targetMember, it).queue() }
 
                 channel.delete().queue()
             }

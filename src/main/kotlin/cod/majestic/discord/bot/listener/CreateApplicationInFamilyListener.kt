@@ -22,7 +22,7 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
             val member = event.member ?: return
 
             val existingChannel = guild.textChannels
-                .firstOrNull { it.name == "заявка-в-семью-${member.id}" }
+                .firstOrNull { it.name == "☢\uFE0F・заявка-в-семью-${member.id}" }
 
             if (existingChannel != null) {
                 event.reply("❌ У вас уже есть активная заявка: ${existingChannel.asMention}")
@@ -82,9 +82,10 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
         val highRole = guild.roles.find { it.name == RoleType.HIGH.nameInDiscord } ?: return
         val recruiterRole = guild.roles.find { it.name == RoleType.RECRUITER.nameInDiscord } ?: return
 
-        val channelName = "заявка-в-семью-${member.id}"
+        val channelName = "☢\uFE0F・заявка-в-семью-${member.id}"
+        val category = guild.categories.find { it.name == "\uD83D\uDCCB・Активные заявки" } ?: return
 
-        guild.createTextChannel(channelName)
+        category.createTextChannel(channelName)
             .addPermissionOverride(
                 guild.publicRole,
                 null,
@@ -134,7 +135,8 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
                 createdChannel.sendMessage(
                     message
                 ).setActionRow(
-                    Button.success("approve_application_${member.id}", "Одобрить"),
+                    Button.primary("waiting_call_${member.id}", "Обзвонить"),
+                    Button.success("approve_application_${member.id}", "Принять"),
                     Button.secondary("reject_application_${member.id}", "Отклонить")
                 ).queue()
 

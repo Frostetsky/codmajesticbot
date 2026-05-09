@@ -7,11 +7,13 @@ enum class RoleType(
     LEADER("LEADER"),
     DEPUTY_LEADER("DEPUTY LEADER"),
     HIGH("HIGH"),
-    RECRUITER("RECRUITER"),
+    RECRUITER("RECRUIT"),
     COD("COD"),
     MEDIA("MEDIA"),
     RP("RP"),
     TEG("TEG"),
     MAIN("MAIN"),
-    MAIN_PLUS("MAIN PLUS")
+    MAIN_PLUS("MAIN PLUS"),
+    TEST("TEST"),
+    WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА")
 }

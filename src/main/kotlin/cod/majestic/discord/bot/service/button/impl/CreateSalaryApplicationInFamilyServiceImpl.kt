@@ -16,7 +16,7 @@ class CreateSalaryApplicationInFamilyServiceImpl(
     override fun createAndSendButton() {
         val guild = jda.guilds.first()
         val channel = guild.textChannels.find {
-            it.name.contains("\uD83D\uDDD2\uFE0F・заявка-в-семью-на-платную-основу")
+            it.name.contains("├・заявка-на-платную-основу\uD83D\uDCB0")
         } ?: return
 
         channel.history.retrievePast(20).queue { messages ->

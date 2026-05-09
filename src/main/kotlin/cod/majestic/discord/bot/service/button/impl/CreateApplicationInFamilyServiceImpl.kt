@@ -16,7 +16,7 @@ class CreateApplicationInFamilyServiceImpl(
     override fun createAndSendButton() {
         val guild = jda.guilds.first()
         val channel = guild.textChannels.find {
-            it.name.contains("\uD83D\uDDD2\uFE0F・заявка-в-семью")
+            it.name.contains("├・заявка-в-семью\uD83D\uDDD2\uFE0F")
         } ?: return
 
         channel.history.retrievePast(20).queue { messages ->
