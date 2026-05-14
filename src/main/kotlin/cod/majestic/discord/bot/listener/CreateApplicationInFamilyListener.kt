@@ -34,27 +34,20 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
             val modal = Modal.create("application_modal", "Заявка в семью")
                 .addActionRows(
                     ActionRow.of(
-                        TextInput.create("personInfo", "Реальное имя, никнейм, static ID, возраст:", TextInputStyle.SHORT)
+                        TextInput.create("personInfo", "Ваш возраст IRL:", TextInputStyle.SHORT)
                             .setRequired(true)
+                            .setPlaceholder("Минимальный возраст 16 лет.")
                             .build()
                     ),
                     ActionRow.of(
-                        TextInput.create("gameExperience", "Опыт игры на Majestic RP и средний онлайн:", TextInputStyle.SHORT)
+                        TextInput.create("urlVideos", "Откаты (capt/mcl/gg):", TextInputStyle.PARAGRAPH)
                             .setRequired(true)
+                            .setPlaceholder("rutube/youtube.")
                             .build()
                     ),
                     ActionRow.of(
-                        TextInput.create("lastFamilies", "В каких семьях был? Причины ухода?", TextInputStyle.PARAGRAPH)
-                            .setRequired(true)
-                            .build()
-                    ),
-                    ActionRow.of(
-                        TextInput.create("expectationsFromFamily", "Твои ожидания от семьи?", TextInputStyle.PARAGRAPH)
-                            .setRequired(true)
-                            .build()
-                    ),
-                    ActionRow.of(
-                        TextInput.create("urlVideos", "Откаты с capt, mcl, mp, gg (если имеются):", TextInputStyle.PARAGRAPH)
+                        TextInput.create("urlScreens", "Скрин персонажей:", TextInputStyle.PARAGRAPH)
+                            .setPlaceholder("imgur/yapix/ibb")
                             .setRequired(false)
                             .build()
                     )
@@ -71,11 +64,9 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
         val guild = event.guild ?: return
         val member = event.member ?: return
 
-        val name = event.getValue("personInfo")!!.asString
-        val gameExperience = event.getValue("gameExperience")!!.asString
-        val lastFamilies = event.getValue("lastFamilies")!!.asString
-        val expectationsFromFamily = event.getValue("expectationsFromFamily")!!.asString
-        val urlVideos = event.getValue("urlVideos")?.asString ?: ""
+        val age = event.getValue("personInfo")!!.asString
+        val urlScreens = event.getValue("urlScreens")!!.asString
+        val urlVideos = event.getValue("urlVideos")!!.asString
 
         val deputyRole = guild.roles.find { it.name == RoleType.DEPUTY_LEADER.nameInDiscord } ?: return
         val leaderRole = guild.roles.find { it.name == RoleType.LEADER.nameInDiscord } ?: return
@@ -124,11 +115,9 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
 
                     Пользователь: ${member.asMention}
                   
-                    Реальное имя, игровой никнейм, staticID, возраст: $name
-                    Опыт игры на Majestic RP (по времени) и средний онлайн: $gameExperience
-                    В каких семьях был? Причины ухода? $lastFamilies
-                    Твои ожидания от семьи? $expectationsFromFamily
-                    Откаты с CAPT, MCL, MP, GG: $urlVideos
+                    Возраст: $age
+                    Скриншот персонажей: $urlScreens
+                    Откаты (CAPT/MCL/GG): $urlVideos
                     
                     """.trimIndent()
 
@@ -140,7 +129,7 @@ class CreateApplicationInFamilyListener : ListenerAdapter() {
                     Button.secondary("reject_application_${member.id}", "Отклонить")
                 ).queue()
 
-                guild.textChannels.find { it.name == "\uD83C\uDF00・архив-заявок" }?.sendMessage(message)?.queue()
+                guild.textChannels.find { it.name == "┌・архив-заявлений\uD83C\uDF00" }?.sendMessage(message)?.queue()
 
                 event.reply("Заявка создана: ${createdChannel.asMention}")
                     .setEphemeral(true)

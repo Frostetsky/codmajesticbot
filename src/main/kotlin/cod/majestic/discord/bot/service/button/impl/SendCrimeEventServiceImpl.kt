@@ -15,14 +15,19 @@ class SendCrimeEventServiceImpl(
     override fun createAndSendButton() {
         val guild = jda.guilds.first()
         val channel = guild.textChannels
-            .find { it.name.contains("\uD83C\uDFEE・откаты") } ?: return
+            .find { it.name.contains("└・активность-и-баллы⚔\uFE0F") } ?: return
 
         channel.history.retrievePast(20).queue { messages ->
             val alreadyExists = messages.any { message -> isBot(message.author.id, jda.selfUser.id) }
 
             if (!alreadyExists) {
                 val selectMenu = EventCrimeMenuBuilder.get()
-                channel.sendMessage("Нажмите ниже чтобы отправить откат. Укажите сервер, приложите ссылку.")
+                channel.sendMessage(
+                    """
+                    Нажмите ниже чтобы отправить информацию об участии в семейном событии.
+                    Укажите сервер, приложите ссылку.
+                    """.trimIndent()
+                )
                     .setActionRow(selectMenu)
                     .queue()
             }

@@ -25,6 +25,12 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                     return
                 }
 
+                val targetId = event.componentId.removePrefix("reject_application_")
+                val targetMember = guild.retrieveMemberById(targetId).complete()
+                val waitingCallRole = guild.roles.find { it.name == RoleType.WAITING_CALL.nameInDiscord }
+
+                waitingCallRole?.let { guild.removeRoleFromMember(targetMember, it).queue() }
+
                 channel.delete().queue()
             }
 
@@ -50,9 +56,11 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 val targetId = event.componentId.removePrefix("approve_application_")
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
-                val rpRole = guild.roles.find { it.name == RoleType.TEST.nameInDiscord }
+                val testRole = guild.roles.find { it.name == RoleType.TEST.nameInDiscord }
+                val waitingCallRole = guild.roles.find { it.name == RoleType.WAITING_CALL.nameInDiscord }
 
-                rpRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+                testRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+                waitingCallRole?.let { guild.removeRoleFromMember(targetMember, it).queue() }
 
                 channel.delete().queue()
             }
@@ -68,11 +76,25 @@ class ActiveApplicationInFamilyListener : ListenerAdapter() {
                 val targetId = event.componentId.removePrefix("waiting_call_")
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
-                val rpRole = guild.roles.find { it.name == RoleType.WAITING_CALL.nameInDiscord }
+                val waitingCallRole = guild.roles.find { it.name == RoleType.WAITING_CALL.nameInDiscord }
+                val waitingChannel = guild.channels.find { it.name == "├・ожидание-обзвона◀\uFE0F" }
 
-                rpRole?.let { guild.addRoleToMember(targetMember, it).queue() }
+                waitingCallRole?.let { guild.addRoleToMember(targetMember, it).queue() }
 
-                channel.delete().queue()
+                targetMember.user.openPrivateChannel().queue { privateChannel ->
+                    privateChannel.sendMessage(
+                        """
+                        ✅ Твоя заявка рассмотрена и одобрена!
+            
+                        Теперь ты находишься в списке на ожидание обзвона.
+                        Пожалуйста, перейди в канал ${waitingChannel?.asMention} и ожидай дальнейших инструкций.
+                        """.trimIndent()
+                    ).queue {
+                        event.reply("✅ Пользователь ${targetMember.asMention} уведомлён в личные сообщения.")
+                            .setEphemeral(true)
+                            .queue()
+                    }
+                }
             }
 
             event.componentId.startsWith("salary_approve_application_") -> {
