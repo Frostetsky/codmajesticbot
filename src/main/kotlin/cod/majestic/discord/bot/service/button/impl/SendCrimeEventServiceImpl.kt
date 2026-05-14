@@ -1,5 +1,6 @@
 package cod.majestic.discord.bot.service.button.impl
 
+import cod.majestic.discord.bot.builder.EventCrimeMenuBuilder
 import cod.majestic.discord.bot.model.MainButton
 import cod.majestic.discord.bot.model.enums.MainButtonType
 import cod.majestic.discord.bot.server.CodFamilyServer
@@ -20,28 +21,22 @@ class SendCrimeEventServiceImpl(
     override fun createAndSendButton() {
         val guild = codFamilyServer.getMyGuild()
         val channel = guild.textChannels
-            .find { it.name.contains("\uD83C\uDFEE・откаты") } ?: return
+            .find { it.name.contains("└・активность-и-баллы⚔\uFE0F") } ?: return
 
         if (!mainButtonService.existsByButton(MainButtonType.SEND_CRIME_EVENT)) {
-            val button = Button.danger(
-                MainButtonType.SEND_CRIME_EVENT.id,
-                "Отправить информацию"
+            val selectMenu = EventCrimeMenuBuilder.get()
+            channel.sendMessage(
+                """
+                    Нажмите ниже чтобы отправить информацию об участии в семейном событии.
+                    Укажите сервер, приложите ссылку.
+                    """.trimIndent()
             )
-
-            channel.sendMessage("Нажмите ниже чтобы отправить всю необходимую информацию")
-                .setActionRow(button)
-                .queue {
-                    val messageId = it.idLong
-                    val mainButton = MainButton(
-                        id = UUID.randomUUID(),
-                        discordMessageId = messageId,
-                        nameButton = MainButtonType.SEND_CRIME_EVENT,
-                        discordChannelId = channel.idLong,
-                    )
-                    mainButtonService.save(mainButton)
-                }
+                .setActionRow(selectMenu)
+                .queue()
         }
     }
+
+    fun isBot(messageUserId: String, botUserId: String) = messageUserId == botUserId
 
     override fun afterPropertiesSet() {
         createAndSendButton()

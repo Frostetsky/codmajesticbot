@@ -17,7 +17,7 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
             val guild = event.guild ?: return
             val member = event.member ?: return
 
-            val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Тиры"}!!
+            val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Повышение"}!!
             val existingChannel = guild.textChannels
                 .firstOrNull { it.name == "\uD83D\uDEB9・заявка-на-получение-ранга-${member.id}" }
 
@@ -66,11 +66,6 @@ class CreateApplicationGetRangListener : ListenerAdapter() {
                 )
                 .addPermissionOverride(
                     recruiterRole,
-                    null,
-                    listOf(Permission.VIEW_CHANNEL)
-                )
-                .addPermissionOverride(
-                    mediaRole,
                     null,
                     listOf(Permission.VIEW_CHANNEL)
                 )

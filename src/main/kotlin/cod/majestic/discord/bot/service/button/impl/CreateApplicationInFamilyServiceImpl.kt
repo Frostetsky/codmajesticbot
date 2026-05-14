@@ -16,7 +16,7 @@ class CreateApplicationInFamilyServiceImpl(
     override fun createAndSendButton() {
         val guild = jda.guilds.first()
         val channel = guild.textChannels.find {
-            it.name.contains("\uD83D\uDDD2\uFE0F・заявка-в-семью")
+            it.name == "├・заявка-в-семью\uD83D\uDDD2\uFE0F"
         } ?: return
 
         channel.history.retrievePast(20).queue { messages ->
@@ -31,7 +31,7 @@ class CreateApplicationInFamilyServiceImpl(
                       
                         **📌 Примечания:**
                         
-                        • Если у вас нет каких-либо откатов вашего игрового процесса, вы можете претендовать только на ранг "RP" и катать только РП контент от семьи. Вписываться в МКЛ и КАПТ составы вы не будете.
+                        • Если у вас нет каких-либо откатов вашего игрового процесса, вы можете претендовать только на ранг "TEST" и катать только РП контент от семьи. Вписываться в МКЛ и КАПТ составы вы не будете.
                         
                         • Если у вас есть какие-либо откаты, вы сразу можете претендовать на центральный ранг в нашей семье.
                         

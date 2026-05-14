@@ -18,7 +18,7 @@ class CreateApplicationGetRangServiceImpl(
 
         channel.history.retrievePast(20).queue { messages ->
             val alreadyExists = messages.any { message ->
-                isBot(message.author.id, jda.selfUser.id) && existMessage(message.contentRaw)
+                isBot(message.author.id, jda.selfUser.id)
             }
 
             if (!alreadyExists) {
@@ -35,10 +35,6 @@ class CreateApplicationGetRangServiceImpl(
     }
 
     fun isBot(messageUserId: String, botUserId: String) = messageUserId == botUserId
-
-    fun existMessage(message: String) = message.contains(
-        "Нажмите ниже чтобы отправить заявку хай-составу и получить ранг."
-    )
 
     override fun afterPropertiesSet() {
         createAndSendButton()
