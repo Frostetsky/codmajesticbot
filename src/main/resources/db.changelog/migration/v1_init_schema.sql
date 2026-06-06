@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS cod_majestic_rp_bot;

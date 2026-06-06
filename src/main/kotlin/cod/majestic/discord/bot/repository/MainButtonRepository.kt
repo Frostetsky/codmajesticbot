@@ -10,4 +10,6 @@ import java.util.UUID
 interface MainButtonRepository : JpaRepository<MainButton, UUID> {
 
     fun existsByNameButton(mainButtonType: MainButtonType): Boolean
+
+    fun existsByNameButtonIn(mainButtonTypes: Collection<MainButtonType>): Boolean
 }

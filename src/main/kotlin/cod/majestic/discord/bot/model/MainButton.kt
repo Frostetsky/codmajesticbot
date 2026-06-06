@@ -2,29 +2,18 @@ package cod.majestic.discord.bot.model
 
 import cod.majestic.discord.bot.model.enums.MainButtonType
 import jakarta.persistence.Entity
-import java.util.UUID
-import org.springframework.data.annotation.Id
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
+import jakarta.persistence.Id
+import java.util.*
 
 @Entity
-data class MainButton(
+class MainButton(
 
     @Id
-    private val id: UUID,
+    var id: UUID,
 
-    /**
-     * Идентификатор сообщения на котором висит кнопка на Discord сервере
-     */
-    private val discordMessageId: Long,
+    var discordMessageId: Long,
 
-    /**
-     * Название кнопки
-     */
-    private val nameButton: MainButtonType,
+    var nameButton: MainButtonType,
 
-
-    /**
-     * Идентификатор канала в котором расположено сообщение и кнопка
-     */
-    private val discordChannelId: Long
+    var discordChannelId: Long
 )

@@ -1,7 +1,14 @@
 package cod.majestic.discord.bot.config
 
 import cod.majestic.discord.bot.config.properties.DiscordProperties
-import cod.majestic.discord.bot.listener.*
+import cod.majestic.discord.bot.listener.application.`in`.family.ActiveApplicationInFamilyListener
+import cod.majestic.discord.bot.listener.application.`in`.family.CreateApplicationInFamilyListener
+import cod.majestic.discord.bot.listener.application.`in`.family.CreateSalaryApplicationInFamilyListener
+import cod.majestic.discord.bot.listener.crime.event.SendCrimeEventListener
+import cod.majestic.discord.bot.listener.details.otkat.ApproveDetailsAnalyseOtkatListener
+import cod.majestic.discord.bot.listener.details.otkat.DetailsAnalyseOtkatListener
+import cod.majestic.discord.bot.listener.tier.ActiveApplicationGetTierListener
+import cod.majestic.discord.bot.listener.tier.CreateApplicationGetTierListener
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.requests.GatewayIntent
@@ -15,9 +22,9 @@ class DiscordConfiguration(
 
     @Bean
     fun jda(sendCrimeEventListener: SendCrimeEventListener,
-            activeApplicationGetRangListener: ActiveApplicationGetRangListener,
+            activeApplicationGetTierListener: ActiveApplicationGetTierListener,
             activeApplicationInFamilyListener: ActiveApplicationInFamilyListener,
-            createApplicationGetRangListener: CreateApplicationGetRangListener,
+            createApplicationGetTierListener: CreateApplicationGetTierListener,
             createApplicationInFamilyListener: CreateApplicationInFamilyListener,
             createSalaryApplicationInFamilyListener: CreateSalaryApplicationInFamilyListener,
             detailsAnalyseOtkatListener: DetailsAnalyseOtkatListener,
@@ -32,8 +39,8 @@ class DiscordConfiguration(
             .addEventListeners(
                 sendCrimeEventListener,
                 activeApplicationInFamilyListener,
-                createApplicationGetRangListener,
-                activeApplicationGetRangListener,
+                createApplicationGetTierListener,
+                activeApplicationGetTierListener,
                 createApplicationInFamilyListener,
                 createSalaryApplicationInFamilyListener,
                 detailsAnalyseOtkatListener,

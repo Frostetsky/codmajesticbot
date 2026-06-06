@@ -27,6 +27,8 @@ dependencies {
 
     implementation("net.dv8tion:JDA:5.0.0-beta.20")
     implementation("club.minnced:jda-ktx:0.12.0")
+    implementation("org.postgresql:postgresql:42.7.11")
+    implementation("org.liquibase:liquibase-core:4.24.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")

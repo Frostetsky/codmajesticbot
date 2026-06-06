@@ -1,6 +1,16 @@
 discord:
   token: MTQ3NTIwMDA1NTU2Mzc4NDM5NQ.GAWp8Z.uFniRa3o6yPOL7cSMfLKVFVXYMksRKhQye2pVk
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:postgres}
+    username: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+  liquibase:
+    database-change-log-lock-table: ${MIGRATIONS_TABLE_LOCK:cod_majestic_rp_bot_migrations_lock}
+    database-change-log-table: ${MIGRATIONS_TABLE:cod_majestic_rp_bot_migrations}
+    liquibase-schema: ${MIGRATIONS_SCHEMA:cod_majestic_rp_bot}
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:postgres}
+    user: ${POSTGRES_USERNAME:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
 
-logging:
-  level:
-    root: info

@@ -8,12 +8,12 @@ enum class RoleType(
     DEPUTY_LEADER("DEPUTY LEADER"),
     HIGH("HIGH"),
     RECRUITER("RECRUIT"),
-    COD("COD"),
     MEDIA("MEDIA"),
-    RP("RP"),
     TEG("TEG"),
     MAIN("MAIN"),
-    MAIN_PLUS("MAIN PLUS"),
+    TIER_1("TIER 1"),
+    TIER_2("TIER 2"),
+    TIER_3("TIER 3"),
     TEST("TEST"),
     WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА")
 }

@@ -7,4 +7,6 @@ import java.util.UUID
 
 @Repository
 interface FamilyMemberRepository : CrudRepository<FamilyMember, UUID> {
+
+    fun findByDiscordUserId(discordUserId: Long): FamilyMember
 }
