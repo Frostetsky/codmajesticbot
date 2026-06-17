@@ -56,6 +56,8 @@ class SendCrimeEventListener(
     override fun onModalInteraction(event: ModalInteractionEvent) {
         if (!event.modalId.contains("send_crime_info_event_")) return
 
+        event.deferReply(true).complete()
+
         val member = event.member ?: return
 
         val crimeEventTypeString = event.modalId.replace("send_crime_info_event_", "")
@@ -85,7 +87,7 @@ class SendCrimeEventListener(
             "Начислить баллы"
         )
         val buttonCancel = Button.danger(
-            "cancel_add_point_to_member_${eventCrimeId}",
+            ComponentId.CANCEL_ADD_POINT_TO_MEMBER.createComponentId(eventCrimeId.toString()),
             "Отказать"
         )
 
@@ -114,19 +116,19 @@ class SendCrimeEventListener(
 
         eventCrimeService.save(eventCrime)
 
-        event.reply("Событие создано.")
+        event.hook.sendMessage("Событие отправлено на проверку.")
             .setEphemeral(true)
             .queue()
     }
 
     fun sendIncorrectTypeEvent(event: ModalInteractionEvent, crimeEventType: String) {
-        event.reply("Некорректное тип крайм-события, используете ${EventCrimeType.entries.toTypedArray()}.")
+        event.hook.sendMessage("Некорректное тип крайм-события, используете ${EventCrimeType.entries.toTypedArray()}.")
             .setEphemeral(true)
             .queue()
     }
 
     fun sendIncorrectFormatServer(event: ModalInteractionEvent, crimeEventServer: String) {
-        event.reply("Некорректное название или сервер который вы указали семья не играет.")
+        event.hook.sendMessage("Некорректное название или сервер который вы указали семья не играет.")
             .setEphemeral(true)
             .queue()
     }

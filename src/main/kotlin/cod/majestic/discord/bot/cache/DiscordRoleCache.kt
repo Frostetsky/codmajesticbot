@@ -1,5 +1,6 @@
 package cod.majestic.discord.bot.cache
 
+import cod.majestic.discord.bot.model.enums.MainChannelType
 import cod.majestic.discord.bot.model.enums.RoleType
 import cod.majestic.discord.bot.server.CodFamilyServer
 import net.dv8tion.jda.api.entities.Role
@@ -36,14 +37,18 @@ class DiscordRoleCache(
 
     fun getTier3() = cacheRole[RoleType.TIER_3] ?: throw NoSuchElementException(messageError(RoleType.TIER_3))
 
+    fun getInactive() = cacheRole[RoleType.INACTIVE] ?: throw NoSuchElementException(messageError(RoleType.INACTIVE))
+
     override fun afterPropertiesSet() {
         initCache()
     }
 
     private fun initCache() {
-        coDFamilyServer.getMyGuild().roles.forEach {
-            val roleCod = RoleType.valueOf(it.name)
-            cacheRole[roleCod] = it
+        val roles = coDFamilyServer.getMyGuild().roles
+        RoleType.entries.forEach { role ->
+            val roleToCache = roles.find { it.name == role.nameInDiscord }
+                ?: throw NoSuchElementException("Отсутствует роль %s на Discord сервере.".format(role.nameInDiscord))
+            cacheRole[role] = roleToCache
         }
     }
 

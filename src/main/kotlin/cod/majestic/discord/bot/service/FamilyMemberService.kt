@@ -8,5 +8,7 @@ interface FamilyMemberService {
 
     fun getByUserId(discordUserId: Long): FamilyMember
 
+    fun existsByDiscordUserId(discordUserId: Long): Boolean
+
     fun save(familyMember: FamilyMember): FamilyMember
 }

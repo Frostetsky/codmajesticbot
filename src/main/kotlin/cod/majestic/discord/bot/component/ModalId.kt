@@ -10,8 +10,14 @@ enum class ModalId(
     CREATE_APPLICATION_IN_FAMILY("create_application_modal_salary_id", "Заявка в семью."),
     CREATE_APPLICATION_IN_FAMILY_ON_SALARY("create_application_modal_salary_on_salary_id", "Заявка в семью на платную основу."),
 
+    REMOVE_WARN("remove_warn_id", "Снятие игровых предупреждений."),
+
+    MOVE_TO_INACTIVE("move_to_inactive_id", "Уйти в неактив."),
+    MOVE_TO_ACTIVE("move_to_active_id", "Вернуться из неактива."),
+
     DETAILS_ANALYSE_OTKAT("details_analyse_otkat_id", "Запрос на разбор отката."),
     ADD_POINT_TO_MEMBER("add_point_to_member_id", "Выдаваемое количество баллов.");
+
 
 
     fun getModalId() = modalId

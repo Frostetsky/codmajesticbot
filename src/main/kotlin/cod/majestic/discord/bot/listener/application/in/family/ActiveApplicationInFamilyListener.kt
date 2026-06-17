@@ -27,7 +27,7 @@ class ActiveApplicationInFamilyListener(
                     return
                 }
 
-                val targetId = ComponentId.FAMILY_APPLICATION_REJECT.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.FAMILY_APPLICATION_REJECT.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
                 val waitingCallRole = discordRoleCache.getWaitingCall()
 
@@ -51,7 +51,7 @@ class ActiveApplicationInFamilyListener(
                     return
                 }
 
-                val targetId = ComponentId.FAMILY_APPLICATION_APPROVED.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.FAMILY_APPLICATION_APPROVED.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val testRole = discordRoleCache.getTest()
@@ -69,7 +69,7 @@ class ActiveApplicationInFamilyListener(
                     return
                 }
 
-                val targetId = ComponentId.GIVE_WAITING_CALL.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.GIVE_WAITING_CALL.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val waitingCallRole = discordRoleCache.getWaitingCall()
@@ -99,7 +99,7 @@ class ActiveApplicationInFamilyListener(
                     return
                 }
 
-                val targetId = ComponentId.FAMILY_APPLICATION_ON_SALARY_APPROVED.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.FAMILY_APPLICATION_ON_SALARY_APPROVED.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val mainRole = discordRoleCache.getMain()

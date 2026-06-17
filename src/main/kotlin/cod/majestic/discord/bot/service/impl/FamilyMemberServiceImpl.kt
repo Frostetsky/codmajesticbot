@@ -15,5 +15,8 @@ class FamilyMemberServiceImpl(
     override fun getByUserId(discordUserId: Long): FamilyMember =
         familyMemberRepository.findByDiscordUserId(discordUserId)
 
+    override fun existsByDiscordUserId(discordUserId: Long): Boolean =
+        familyMemberRepository.existsByDiscordUserId(discordUserId)
+
     override fun save(familyMember: FamilyMember): FamilyMember = familyMemberRepository.save(familyMember)
 }

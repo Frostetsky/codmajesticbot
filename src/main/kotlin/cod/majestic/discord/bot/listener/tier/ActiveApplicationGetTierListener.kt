@@ -1,5 +1,6 @@
 package cod.majestic.discord.bot.listener.tier
 
+import cod.majestic.discord.bot.cache.DiscordChannelCache
 import cod.majestic.discord.bot.cache.DiscordRoleCache
 import cod.majestic.discord.bot.component.ComponentId
 import cod.majestic.discord.bot.model.enums.RoleType
@@ -7,17 +8,18 @@ import cod.majestic.discord.bot.server.CodFamilyServer
 import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 
 @Component
-class ActiveApplicationGetTierListener(
-    private val discordRoleCache: DiscordRoleCache,
-    private val codFamilyServer: CodFamilyServer
-) : ListenerAdapter() {
+class ActiveApplicationGetTierListener : ListenerAdapter() {
+
+    private lateinit var discordRoleCache: DiscordRoleCache
 
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
 
-        val guild = codFamilyServer.getMyGuild()
+        val guild = event.guild ?: return
         val member = event.member ?: return
         val channel = event.channel.asTextChannel()
 
@@ -29,7 +31,7 @@ class ActiveApplicationGetTierListener(
                     return
                 }
 
-                val targetId = ComponentId.APPROVE_TIER_1.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.APPROVE_TIER_1.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val tier1Add = discordRoleCache.getTier1()
@@ -47,7 +49,7 @@ class ActiveApplicationGetTierListener(
                     return
                 }
 
-                val targetId = ComponentId.APPROVE_TIER_2.getIdentifierParam(event.componentId)
+                val targetId = ComponentId.APPROVE_TIER_2.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val tier2Add = discordRoleCache.getTier2()
@@ -65,7 +67,7 @@ class ActiveApplicationGetTierListener(
                     return
                 }
 
-                val targetId = event.componentId.removePrefix(ComponentId.APPROVE_TIER_3.getComponentId())
+                val targetId = ComponentId.APPROVE_TIER_3.getIdentifierParam<Long>(event.componentId)
                 val targetMember = guild.retrieveMemberById(targetId).complete()
 
                 val tier3Role = discordRoleCache.getTier3()
@@ -87,5 +89,11 @@ class ActiveApplicationGetTierListener(
         buttonInteractionEvent.reply("Недостаточно прав.")
             .setEphemeral(true)
             .queue()
+    }
+
+    @Autowired
+    @Lazy
+    fun setDiscordChannelCache(discordRoleCache: DiscordRoleCache) {
+        this.discordRoleCache = discordRoleCache
     }
 }

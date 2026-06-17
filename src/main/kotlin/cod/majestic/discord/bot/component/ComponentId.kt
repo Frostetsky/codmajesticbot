@@ -1,5 +1,7 @@
 package cod.majestic.discord.bot.component
 
+import java.util.*
+
 enum class ComponentId(
     private val componentId: String
 ) {
@@ -28,7 +30,7 @@ enum class ComponentId(
      */
     GET_MY_POINTS("get_count_my_points_id"),
     ADD_POINT_TO_MEMBER("add_point_to_member_id"),
-
+    CANCEL_ADD_POINT_TO_MEMBER("cancel_add_point_to_member_id"),
 
     /**
      * Откаты
@@ -37,14 +39,35 @@ enum class ComponentId(
     APPROVE_DETAILS_ANALYSE_OTKAT("approve_details_analyse_otkat_id"),
 
     /**
-     * Регистрация
+     * Авторизация
      */
-    REGISTRATION("registration_id");
+    AUTHORIZATION("authorization_id"),
+
+    /**
+     * Крайм-события
+     */
+    SEND_CRIME_EVENT("send_crime_event_id"),
+
+    /**
+     * Активность и неактивность
+     */
+    MOVE_TO_INACTIVE("move_to_inactive_id"),
+    MOVE_TO_ACTIVE("move_to_active_id"),
+
+    /**
+     * Предупреждения
+     */
+    REMOVE_WARN("remove_warn_id");
 
     fun getComponentId() = componentId
 
     fun createComponentId(identifierParam: String) = componentId + "_" + identifierParam
 
-    fun getIdentifierParam(listenerEventId: String) =
-        listenerEventId.removePrefix(componentId + "_").toLong()
+    inline fun <reified T> getIdentifierParam(listenerEventId: String): T {
+        return when (T::class) {
+            UUID::class -> UUID.fromString(listenerEventId.removePrefix(getComponentId() + "_")) as T
+            Long::class -> listenerEventId.removePrefix(getComponentId() + "_").toLong() as T
+            else -> throw IllegalArgumentException("Unsupported type: ${T::class}")
+        }
+    }
 }

@@ -6,9 +6,12 @@ import cod.majestic.discord.bot.model.MainButton
 import cod.majestic.discord.bot.model.enums.MainButtonType
 import cod.majestic.discord.bot.model.enums.MainChannelType
 import cod.majestic.discord.bot.service.MainButtonService
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.buttons.Button
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.stereotype.Service
+import java.awt.Color
 import java.util.*
 
 @Service
@@ -27,30 +30,49 @@ class ActivityFamilyMemberButtons(
                 MainButtonType.GET_COUNT_MY_POINTS.label
             )
 
-            val selectMenuSendCrimeEventButton = EventCrimeMenuBuilder.get()
-            channel.sendMessage(
-                """
-                    Нажмите ниже чтобы отправить информацию об участии в семейном событии.
-                    Укажите сервер, приложите ссылку.
-                    """.trimIndent()
+            val removeWarn = Button.danger(
+                MainButtonType.REMOVE_WARN.id,
+                MainButtonType.REMOVE_WARN.label
             )
 
-            val action = channel.sendMessageEmbeds(MainButtonType.GET_COUNT_MY_POINTS.message)
-                .setActionRow(getMyPointsButton, selectMenuSendCrimeEventButton)
+            val selectMenuSendCrimeEventButton = EventCrimeMenuBuilder.get()
+
+            val embed = EmbedBuilder()
+                .setTitle("Активность членов семьи")
+                .setDescription(
+                    """
+                    **В данном канале вы можете:**
+                    
+                    1. ${MainButtonType.GET_COUNT_MY_POINTS.label}
+                    2. ${MainButtonType.SEND_CRIME_EVENT.label}
+                    3. ${MainButtonType.REMOVE_WARN.label}
+                    
+                    Укажите сервер и приложите ссылку.
+                    """.trimIndent()
+                )
+                .setColor(Color.RED)
+                .build()
+
+            val message = channel.sendMessageEmbeds(embed)
+                .setComponents(
+                    ActionRow.of(getMyPointsButton),
+                    ActionRow.of(removeWarn),
+                    ActionRow.of(selectMenuSendCrimeEventButton)
+                )
                 .complete()
 
             val getMyPointsButtonSaved = MainButton(
                 id = UUID.randomUUID(),
-                discordMessageId = action.idLong,
+                discordMessageId = message.idLong,
                 MainButtonType.GET_COUNT_MY_POINTS,
-                action.channel.idLong
+                message.channel.idLong
             )
 
             val selectMenuSendCrimeEventButtonSaved = MainButton(
                 id = UUID.randomUUID(),
-                discordMessageId = action.idLong,
-                MainButtonType.GET_COUNT_MY_POINTS,
-                action.channel.idLong
+                discordMessageId = message.idLong,
+                MainButtonType.SEND_CRIME_EVENT,
+                message.channel.idLong
             )
 
             mainButtonService.saveAll(setOf(getMyPointsButtonSaved, selectMenuSendCrimeEventButtonSaved))

@@ -6,7 +6,6 @@ import cod.majestic.discord.bot.component.ComponentId
 import cod.majestic.discord.bot.component.FieldId
 import cod.majestic.discord.bot.component.ModalId
 import cod.majestic.discord.bot.model.enums.MainChannelType
-import cod.majestic.discord.bot.model.enums.RoleType
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
@@ -14,7 +13,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.buttons.Button
 import net.dv8tion.jda.api.interactions.components.text.TextInput
-import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.api.interactions.modals.Modal
 import org.springframework.stereotype.Component
 
@@ -46,19 +44,19 @@ class CreateApplicationInFamilyListener(
         )
             .addActionRows(
                 ActionRow.of(
-                    TextInput.create(FieldId.AGE.getId(), FieldId.AGE.getTitle(), FieldId.AGE.getSize())
+                    TextInput.create(FieldId.AGE.getId(), FieldId.AGE.getLabel(), FieldId.AGE.getSize())
                         .setRequired(FieldId.AGE.getRequired())
                         .setPlaceholder(FieldId.AGE.getPlaceHolder())
                         .build()
                 ),
                 ActionRow.of(
-                    TextInput.create(FieldId.URL_VIDEOS.getId(), FieldId.URL_VIDEOS.getTitle(), FieldId.URL_VIDEOS.getSize())
+                    TextInput.create(FieldId.URL_VIDEOS.getId(), FieldId.URL_VIDEOS.getLabel(), FieldId.URL_VIDEOS.getSize())
                         .setRequired(FieldId.URL_VIDEOS.getRequired())
                         .setPlaceholder(FieldId.URL_VIDEOS.getPlaceHolder())
                         .build()
                 ),
                 ActionRow.of(
-                    TextInput.create(FieldId.SCREEN_PERSON.getId(), FieldId.SCREEN_PERSON.getTitle(), FieldId.SCREEN_PERSON.getSize())
+                    TextInput.create(FieldId.SCREEN_PERSON.getId(), FieldId.SCREEN_PERSON.getLabel(), FieldId.SCREEN_PERSON.getSize())
                         .setRequired(FieldId.SCREEN_PERSON.getRequired())
                         .setPlaceholder(FieldId.SCREEN_PERSON.getPlaceHolder())
                         .build()

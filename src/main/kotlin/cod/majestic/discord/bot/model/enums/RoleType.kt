@@ -9,11 +9,17 @@ enum class RoleType(
     HIGH("HIGH"),
     RECRUITER("RECRUIT"),
     MEDIA("MEDIA"),
-    TEG("TEG"),
     MAIN("MAIN"),
     TIER_1("TIER 1"),
     TIER_2("TIER 2"),
     TIER_3("TIER 3"),
     TEST("TEST"),
-    WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА")
+    INACTIVE("INACTIVE"),
+    WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА");
+
+    companion object {
+        fun findByDiscordName(nameInDiscord: String): RoleType {
+            return RoleType.entries.find { it.nameInDiscord == nameInDiscord } ?: throw IllegalStateException("Unsupported roleServer $nameInDiscord")
+        }
+    }
 }
