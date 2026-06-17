@@ -1,0 +1,9 @@
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('f47ac10b-58cc-4372-a567-0e02b2c3d479', 'DILLERS', 30);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('7c9e6679-7425-40de-944b-e07fc1f90ae7', 'CEHA', 30);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('3b3f2d3e-4f5a-4b6c-8d7e-9f0a1b2c3d4e', 'BANK', 20);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('9a8b7c6d-5e4f-3210-9876-543210fedcba', 'DROP', 30);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('c0a80101-0000-4000-8000-000000000001', 'POSTAVKA', 20);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('6ba7b810-9dad-11d1-80b4-00c04fd430c8', 'OSTROV', 30);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'FZ', 30);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('550e8400-e29b-41d4-a716-446655440000', 'TAINIKI', 10);
+INSERT INTO cod_majestic_rp_bot.event_crime_pair_point VALUES ('123e4567-e89b-12d3-a456-426614174000', 'GG', 1);
