@@ -27,9 +27,9 @@ class MoveToInactiveListener(
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
         if (!event.componentId.startsWith(ComponentId.MOVE_TO_INACTIVE.getComponentId())) return
 
-        val userId = ComponentId.MOVE_TO_INACTIVE.getIdentifierParam<Long>(event.componentId)
+        val userId = event.user.id
         val modal = Modal.create(
-            ModalId.MOVE_TO_INACTIVE.createModalId(userId.toString()),
+            ModalId.MOVE_TO_INACTIVE.createModalId(userId),
             ModalId.MOVE_TO_INACTIVE.getTitle()
         )
             .addActionRows(
@@ -52,7 +52,7 @@ class MoveToInactiveListener(
 
         val guild = codFamilyServer.getMyGuild()
         val userId = ModalId.MOVE_TO_INACTIVE.getIdentifierParam<Long>(event.modalId)
-        val description = event.getValue(FieldId.DESCRIPTION_TO_INACTIVE.getId()).toString()
+        val description = event.getValue(FieldId.DESCRIPTION_TO_INACTIVE.getId())!!.asString
 
         val targetMember = codFamilyServer.getUserById(userId)
         val inactiveRole = discordRoleCache.getInactive()

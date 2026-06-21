@@ -174,6 +174,29 @@ enum class MainButtonType(
         MainChannelType.INACTIVE
     ),
 
+    CREATE_PERSONAL_BRANCH(
+        "create_personal_branch_id",
+        "Создать личную ветку для CAPT / MCL / ВЗЗ",
+        EmbedBuilder()
+            .setTitle("Создать личную ветку для CAPT / MCL / ВЗЗ")
+            .setDescription("""
+                        
+                **В данном канале вы можете создать свою личную ветку.**
+                
+                • В названии личной ветки используйте свой игровой ник (только имя). Пример - nagi,puga,slim
+                • В личную ветку необходимо заливать откаты только с CAPT / MCL / ВЗЗ
+                • Проверка личных веток не всегда происходит своевременно.
+                • Если вам нужно разобрать ваш откат в приоритет, используйте %s
+                
+                В случае успешного создания у вас появится ветка с названием 'личная-ветка-{nick}'
+
+                """.trimIndent()
+            )
+            .setColor(Color.RED)
+            .build(),
+        MainChannelType.INACTIVE
+    ),
+
     MOVE_TO_HOLIDAY(
         "move_to_holiday_id",
         "Уйти в отпуск",

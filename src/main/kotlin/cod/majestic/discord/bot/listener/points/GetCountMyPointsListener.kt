@@ -14,9 +14,9 @@ class GetCountMyPointsListener(
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
         if (!event.componentId.startsWith(ComponentId.GET_MY_POINTS.getComponentId())) return
 
-        val targetMemberId = ComponentId.GET_MY_POINTS.getIdentifierParam<Long>(event.componentId)
+        val targetMemberId = event.user.idLong
         val pointsMemberFamily = familyMemberService.getPointsByUserId(targetMemberId)
 
-        event.reply("Ваше текущее количество баллов ${pointsMemberFamily}.").queue()
+        event.reply("Ваше текущее количество баллов ${pointsMemberFamily}.").setEphemeral(true).queue()
     }
 }

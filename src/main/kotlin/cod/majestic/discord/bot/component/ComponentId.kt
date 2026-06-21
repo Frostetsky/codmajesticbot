@@ -55,6 +55,11 @@ enum class ComponentId(
     MOVE_TO_ACTIVE("move_to_active_id"),
 
     /**
+     * Личная ветка
+     */
+    CREATE_PERSONAL_BRANCH("create_personal_branch_id"),
+
+    /**
      * Предупреждения
      */
     REMOVE_WARN("remove_warn_id");

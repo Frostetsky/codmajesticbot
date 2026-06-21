@@ -17,9 +17,9 @@ class RemoveWarnListener() : ListenerAdapter() {
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
         if (!event.componentId.startsWith(ComponentId.REMOVE_WARN.getComponentId())) return
 
-        val eventCrimeId = ComponentId.REMOVE_WARN.getIdentifierParam<Long>(event.componentId)
+        val userId = event.user.id
         val modal = Modal.create(
-            ModalId.REMOVE_WARN.createModalId(eventCrimeId.toString()),
+            ModalId.REMOVE_WARN.createModalId(userId),
             ModalId.REMOVE_WARN.getTitle()
         )
             .addActionRows(

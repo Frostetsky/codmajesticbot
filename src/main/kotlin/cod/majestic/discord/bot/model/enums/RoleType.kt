@@ -15,6 +15,8 @@ enum class RoleType(
     TIER_3("TIER 3"),
     TEST("TEST"),
     INACTIVE("INACTIVE"),
+    COD("COD"),
+    P_1("P1"),
     WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА");
 
     companion object {

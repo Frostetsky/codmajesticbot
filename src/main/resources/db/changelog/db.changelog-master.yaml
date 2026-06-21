@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/migration/v3_update_crime_event_pair_point.sql
   - include:
       file: db/changelog/migration/v4_create_inactive_table.sql
+  - include:
+      file: db/changelog/migration/v5_create_personal_branch.sql

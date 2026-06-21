@@ -1,19 +1,2 @@
-discord:
-  token: ${DISCORD_BOT_TOKEN}
-spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${POSTGRES_URL}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-  liquibase:
-    database-change-log-lock-table: cod_majestic_rp_bot_migrations_lock
-    database-change-log-table: cod_majestic_rp_bot_migrations
-    liquibase-schema: cod_majestic_rp_bot
-    url: ${POSTGRES_URL}
-    user: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: none
+
 

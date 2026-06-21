@@ -39,6 +39,10 @@ class DiscordRoleCache(
 
     fun getInactive() = cacheRole[RoleType.INACTIVE] ?: throw NoSuchElementException(messageError(RoleType.INACTIVE))
 
+    fun getCod() = cacheRole[RoleType.COD] ?: throw NoSuchElementException(messageError(RoleType.COD))
+
+    fun getP1() = cacheRole[RoleType.P_1] ?: throw NoSuchElementException(messageError(RoleType.P_1))
+
     override fun afterPropertiesSet() {
         initCache()
     }

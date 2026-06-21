@@ -16,9 +16,9 @@ enum class ModalId(
     MOVE_TO_ACTIVE("move_to_active_id", "Вернуться из неактива."),
 
     DETAILS_ANALYSE_OTKAT("details_analyse_otkat_id", "Запрос на разбор отката."),
-    ADD_POINT_TO_MEMBER("add_point_to_member_id", "Выдаваемое количество баллов.");
+    ADD_POINT_TO_MEMBER("add_point_to_member_id", "Выдаваемое количество баллов."),
 
-
+    CREATE_BRANCH("create_branch_id", "Название личной ветки (Ваше имя в игре)");
 
     fun getModalId() = modalId
     fun getTitle() = title

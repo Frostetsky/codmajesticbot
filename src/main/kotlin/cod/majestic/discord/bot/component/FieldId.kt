@@ -34,6 +34,11 @@ enum class FieldId(
     DESCRIPTION_TO_INACTIVE("descriptionInactive", "Причина:", true, "Описание", TextInputStyle.PARAGRAPH),
 
     /**
+     * Личные ветки
+     */
+    BRANCH_NAME("branchName", "Название ветки (Ваше имя в игре)", true, "Nagi/Liam/и т.д", TextInputStyle.SHORT),
+
+    /**
      * Баллы
      */
     POINT("add_point_count", "Введите количество баллов", true, "0", TextInputStyle.SHORT);

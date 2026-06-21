@@ -4,6 +4,7 @@ import cod.majestic.discord.bot.cache.DiscordRoleCache
 import cod.majestic.discord.bot.component.ComponentId
 import cod.majestic.discord.bot.model.enums.RoleType
 import cod.majestic.discord.bot.server.CodFamilyServer
+import cod.majestic.discord.bot.service.PersonalBranchService
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
@@ -15,7 +16,8 @@ import cod.majestic.discord.bot.model.enums.RoleType as RoleCod
 @Component
 class CreateApplicationGetTierListener(
     private val codFamilyServer: CodFamilyServer,
-    private val discordRoleCache: DiscordRoleCache
+    private val discordRoleCache: DiscordRoleCache,
+    private val personalBranchService: PersonalBranchService
 ) : ListenerAdapter() {
 
     private val tierRoles = setOf(RoleCod.TIER_1.nameInDiscord, RoleCod.TIER_2.nameInDiscord, RoleType.TIER_3.nameInDiscord)
@@ -26,7 +28,7 @@ class CreateApplicationGetTierListener(
         val guild = event.guild ?: return
         val member = event.member ?: return
 
-        val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Tier" }!!
+        val categoryGetTier = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на получение тиров" }!!
         val existingChannel = guild.textChannels
             .firstOrNull { it.name == "\uD83D\uDEB9・заявка-на-получение-тира-${member.user.id}" }
 
@@ -46,65 +48,101 @@ class CreateApplicationGetTierListener(
             return
         }
 
-        val deputyRole = discordRoleCache.getDepLeader()
-        val leaderRole = discordRoleCache.getLeader()
-        val recruiterRole = discordRoleCache.getRecruiter()
-        val mediaRole = discordRoleCache.getMedia()
-        val testRole = discordRoleCache.getTest()
-        val mainRole = discordRoleCache.getMain()
-
         val channelName = "\uD83D\uDEB9・заявка-на-получение-тира-${member.user.id}"
+        val personalBranch = personalBranchService.findByDiscordUserId(member.user.idLong)
+        val asMentionBranch = codFamilyServer.getTextChannels()
+            .find { it.idLong == personalBranch.discordChannelId }
+            ?.asMention ?: "временно отсутствует"
 
-        categoryGetRang.createTextChannel(channelName)
+        categoryGetTier.createTextChannel(channelName)
             .addPermissionOverride(
                 guild.publicRole,
                 null,
                 listOf(Permission.VIEW_CHANNEL)
             )
             .addPermissionOverride(
-                recruiterRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                mediaRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                testRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                mainRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
                 member,
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
+                null
+            )
+            .addPermissionOverride(
+                discordRoleCache.getDepLeader(),
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                 null
             )
             .addPermissionOverride(
-                deputyRole,
+                discordRoleCache.getLeader(),
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                 null
             )
             .addPermissionOverride(
-                leaderRole,
-                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
+                discordRoleCache.getHigh(),
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
                 null
+            )
+            .addPermissionOverride(
+                discordRoleCache.getRecruiter(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getMedia(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier3(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier2(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier1(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getWaitingCall(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getMain(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTest(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getInactive(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getCod(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getP1(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
             )
             .queue { createdChannel ->
 
                 val message =
                     """
-                    📋 **Заявка на получение ранга**
+                    📋 **Заявка на получение тира**
 
                     Запрос от пользователя: ${member.asMention}.
-                    Личная ветка пользователя: временно отсутствует
-                    Просьба пересмотреть мой текущий ранг и выдать ${getMessageByPriorityRole(member.roles)}.
+                    Личная ветка пользователя: $asMentionBranch
                     Ниже прикрепляю все необходимые доказательства.
                     
                     """.trimIndent()
@@ -127,25 +165,5 @@ class CreateApplicationGetTierListener(
                     .setEphemeral(true)
                     .queue()
             }
-    }
-
-    private fun getMessageByPriorityRole(roles: List<Role>): String {
-        val noTier = roles.none { role -> tierRoles.contains(role.name) }
-        val isTier2 = roles.any { it.name == RoleCod.TIER_2.nameInDiscord }
-        val isTier3 = roles.any { it.name == RoleCod.TIER_3.nameInDiscord }
-
-        if (noTier) {
-            return RoleCod.TIER_3.nameInDiscord
-        }
-
-        if (isTier2) {
-            return RoleCod.TIER_1.nameInDiscord
-        }
-
-        if (isTier3) {
-            return RoleCod.TIER_2.nameInDiscord
-        }
-
-        throw UnsupportedOperationException("Неизвестно какой ранг запрашивает участник семьи. Произошёл конфликт ролей.")
     }
 }

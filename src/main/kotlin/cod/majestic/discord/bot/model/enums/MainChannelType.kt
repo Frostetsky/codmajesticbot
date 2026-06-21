@@ -12,7 +12,6 @@ enum class MainChannelType(
     GET_TIER("├・заявка-на-получение-тира⚜\uFE0F"),
     ARCHIVE_APPLICATION("┌・\uD83D\uDDC3\uFE0Fархив-заявлений\uD83D\uDDC3\uFE0F"),
     ADMINISTRATION("┌・администрирование\uD83D\uDFE3"),
-    INACTIVE("├・\uD83D\uDE34неактивность\uD83D\uDE34")
-
-
+    INACTIVE("├・\uD83D\uDE34неактивность\uD83D\uDE34"),
+    CREATE_PERSONAL_BRANCH("├・создание-личной-ветки♎"),
 }

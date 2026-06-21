@@ -21,7 +21,7 @@ class MoveToActiveListener(
 
         event.deferReply(true).complete()
 
-        val userId = ComponentId.MOVE_TO_ACTIVE.getIdentifierParam<Long>(event.componentId)
+        val userId = event.user.idLong
         val targetMember = codFamilyServer.getUserById(userId)
         val inactiveRole = discordRoleCache.getInactive()
 

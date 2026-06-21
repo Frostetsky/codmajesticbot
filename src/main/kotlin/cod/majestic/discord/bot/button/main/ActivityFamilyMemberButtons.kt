@@ -1,6 +1,5 @@
 package cod.majestic.discord.bot.button.main
 
-import cod.majestic.discord.bot.builder.EventCrimeMenuBuilder
 import cod.majestic.discord.bot.cache.DiscordChannelCache
 import cod.majestic.discord.bot.model.MainButton
 import cod.majestic.discord.bot.model.enums.MainButtonType
@@ -23,7 +22,7 @@ class ActivityFamilyMemberButtons(
     private fun createAndSendButton() {
         val channel = discordChannelCache.getBy(MainChannelType.ACTIVITY_FAMILY_MEMBER_MAIN)
 
-        if (!mainButtonService.existsByButtons(setOf(MainButtonType.GET_COUNT_MY_POINTS, MainButtonType.SEND_CRIME_EVENT))) {
+        if (!mainButtonService.existsByButtons(setOf(MainButtonType.GET_COUNT_MY_POINTS, MainButtonType.REMOVE_WARN))) {
 
             val getMyPointsButton = Button.primary(
                 MainButtonType.GET_COUNT_MY_POINTS.id,
@@ -35,8 +34,6 @@ class ActivityFamilyMemberButtons(
                 MainButtonType.REMOVE_WARN.label
             )
 
-            val selectMenuSendCrimeEventButton = EventCrimeMenuBuilder.get()
-
             val embed = EmbedBuilder()
                 .setTitle("Активность членов семьи")
                 .setDescription(
@@ -44,10 +41,13 @@ class ActivityFamilyMemberButtons(
                     **В данном канале вы можете:**
                     
                     1. ${MainButtonType.GET_COUNT_MY_POINTS.label}
-                    2. ${MainButtonType.SEND_CRIME_EVENT.label}
-                    3. ${MainButtonType.REMOVE_WARN.label}
+                    2. ${MainButtonType.REMOVE_WARN.label}
+                    3. Прикрепить доказательства участия в том или ином крайм-мероприятии.
                     
-                    Укажите сервер и приложите ссылку.
+                    Если на ваше сообщение об участии установлена реакция ✅, то
+                    это означает что хай-состав проверил ваши доказательства и начислил баллы.
+                    Если же стоит реакция ❌, то это означает что ваши доказательства не были приняты.
+                    
                     """.trimIndent()
                 )
                 .setColor(Color.RED)
@@ -57,7 +57,6 @@ class ActivityFamilyMemberButtons(
                 .setComponents(
                     ActionRow.of(getMyPointsButton),
                     ActionRow.of(removeWarn),
-                    ActionRow.of(selectMenuSendCrimeEventButton)
                 )
                 .complete()
 
@@ -68,14 +67,14 @@ class ActivityFamilyMemberButtons(
                 message.channel.idLong
             )
 
-            val selectMenuSendCrimeEventButtonSaved = MainButton(
+            val removeWarnButtonSaved = MainButton(
                 id = UUID.randomUUID(),
                 discordMessageId = message.idLong,
-                MainButtonType.SEND_CRIME_EVENT,
+                MainButtonType.REMOVE_WARN,
                 message.channel.idLong
             )
 
-            mainButtonService.saveAll(setOf(getMyPointsButtonSaved, selectMenuSendCrimeEventButtonSaved))
+            mainButtonService.saveAll(setOf(getMyPointsButtonSaved, removeWarnButtonSaved))
         }
     }
 

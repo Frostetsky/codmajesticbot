@@ -57,80 +57,89 @@ class DetailsAnalyseOtkatListener(
 
         val urlVideos = event.getValue(FieldId.URL_VIDEOS.getId())?.asString!!
 
-        val deputyRole = discordRoleCache.getDepLeader()
-        val leaderRole = discordRoleCache.getLeader()
-        val recruiterRole = discordRoleCache.getRecruiter()
-        val mediaRole = discordRoleCache.getMedia()
-        val highRole = discordRoleCache.getHigh()
-        val testRole = discordRoleCache.getTest()
-        val mainRole = discordRoleCache.getMain()
-        val tier1Role = discordRoleCache.getTier1()
-        val tier2Role = discordRoleCache.getTier2()
-        val tier3Role = discordRoleCache.getTier3()
-
-        val categoryGetRang = guild.categories.firstOrNull { it.name == "\uD83D\uDD2B・Tier"}!!
+        val categoryApplicationDetailsOtkat = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на подробный разбор отката"}!!
         val channelName = "\uD83E\uDDE9・заявка-на-разбор-отката-${member.id}"
 
-        categoryGetRang.createTextChannel(channelName)
+        categoryApplicationDetailsOtkat.createTextChannel(channelName)
             .addPermissionOverride(
                 guild.publicRole,
                 null,
                 listOf(Permission.VIEW_CHANNEL)
             )
             .addPermissionOverride(
-                recruiterRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                mediaRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                testRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                tier1Role,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                tier2Role,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                tier3Role,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                mainRole,
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
                 member,
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
+                null
+            )
+            .addPermissionOverride(
+                discordRoleCache.getDepLeader(),
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                 null
             )
             .addPermissionOverride(
-                deputyRole,
+                discordRoleCache.getLeader(),
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
                 null
             )
             .addPermissionOverride(
-                highRole,
-                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
+                discordRoleCache.getHigh(),
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
                 null
             )
             .addPermissionOverride(
-                leaderRole,
-                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND),
-                null
+                discordRoleCache.getRecruiter(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getMedia(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier3(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier2(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTier1(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getWaitingCall(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getMain(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTest(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getInactive(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getCod(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
+            )
+            .addPermissionOverride(
+                discordRoleCache.getP1(),
+                null,
+                listOf(Permission.VIEW_CHANNEL)
             )
             .queue { createdChannel ->
 

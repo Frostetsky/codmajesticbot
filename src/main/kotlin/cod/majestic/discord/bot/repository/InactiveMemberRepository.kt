@@ -7,4 +7,8 @@ import java.util.*
 
 @Repository
 interface InactiveMemberRepository : CrudRepository<InactiveMember, UUID> {
+
+    fun deleteByDiscordUserId(id: Long)
+
+    fun findAllByDiscordUserIdIn(discordUserIds: List<Long>): List<InactiveMember>
 }

@@ -29,7 +29,7 @@ data class EventCrime(
      * Идентификатор сообщения в канале активности членов семьи
      */
     @Column(name = "discord_message_id")
-    var discordMessageId: Long,
+    var discordMessageId: Long?,
 
     @ManyToOne
     @JoinColumn(name = "family_member_id", referencedColumnName = "id")
