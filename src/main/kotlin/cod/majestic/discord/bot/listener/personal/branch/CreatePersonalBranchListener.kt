@@ -8,6 +8,7 @@ import cod.majestic.discord.bot.model.PersonalBranch
 import cod.majestic.discord.bot.server.CodFamilyServer
 import cod.majestic.discord.bot.service.PersonalBranchService
 import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.channel.concrete.Category
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -61,7 +62,18 @@ class CreatePersonalBranchListener(
         val branchName = event.getValue(FieldId.BRANCH_NAME.getId())!!.asString.lowercase()
 
         val channelName = "\uD83C\uDF80・личная-ветка-${branchName}"
-        val category = codFamilyServer.getMyGuild().categories.find { it.name == "\uD83D\uDD2F・Личные ветки" } ?: return
+
+        val category: Category
+
+        val categoryFirstPartition = codFamilyServer.getMyGuild().categories.find { it.name == "\uD83D\uDD2F・Личные ветки (1 - 50)" } ?: return
+        val categorySecondPartition = codFamilyServer.getMyGuild().categories.find { it.name == "\uD83D\uDD2F・Личные ветки (51 - 100)" } ?: return
+        val countPersonalBranches = categoryFirstPartition.textChannels.count()
+
+        category = if (countPersonalBranches == 50) {
+            categorySecondPartition
+        } else {
+            categoryFirstPartition
+        }
 
         val createdChannel = category.createTextChannel(channelName)
             .addPermissionOverride(

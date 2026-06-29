@@ -36,15 +36,6 @@ class ActiveApplicationInFamilyListener(
                 channel.delete().queue()
             }
 
-            event.componentId.startsWith(ComponentId.FAMILY_APPLICATION_ON_SALARY_REJECT.getComponentId()) -> {
-                if (!hasLeaderPermissions(member)) {
-                    sendPermissionError(event)
-                    return
-                }
-
-                channel.delete().queue()
-            }
-
             event.componentId.startsWith(ComponentId.FAMILY_APPLICATION_APPROVED.getComponentId()) -> {
                 if (!hasLeaderPermissions(member)) {
                     sendPermissionError(event)
@@ -91,24 +82,6 @@ class ActiveApplicationInFamilyListener(
                             .queue()
                     }
                 }
-            }
-
-            event.componentId.startsWith(ComponentId.FAMILY_APPLICATION_ON_SALARY_APPROVED.getComponentId()) -> {
-                if (!hasLeaderPermissions(member)) {
-                    sendPermissionError(event)
-                    return
-                }
-
-                val targetId = ComponentId.FAMILY_APPLICATION_ON_SALARY_APPROVED.getIdentifierParam<Long>(event.componentId)
-                val targetMember = guild.retrieveMemberById(targetId).complete()
-
-                val mainRole = discordRoleCache.getMain()
-                val tier2Role = discordRoleCache.getTier2()
-
-                guild.addRoleToMember(targetMember, mainRole).queue()
-                guild.addRoleToMember(targetMember, tier2Role).queue()
-
-                channel.delete().queue()
             }
         }
     }

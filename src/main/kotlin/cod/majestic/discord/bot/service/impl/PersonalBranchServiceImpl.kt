@@ -4,6 +4,8 @@ import cod.majestic.discord.bot.model.PersonalBranch
 import cod.majestic.discord.bot.repository.PersonalBranchRepository
 import cod.majestic.discord.bot.service.PersonalBranchService
 import org.springframework.stereotype.Service
+import java.util.*
+import kotlin.NoSuchElementException
 
 @Service
 class PersonalBranchServiceImpl(
@@ -19,4 +21,8 @@ class PersonalBranchServiceImpl(
     override fun existsByDiscordUserId(discordUserId: Long): Boolean =
         personalBranchRepository.existsByDiscordUserId(discordUserId)
 
+    override fun findByBranchName(name: String): PersonalBranch =
+        personalBranchRepository.findByBranchName(name).orElseThrow {
+            throw NoSuchElementException("Branch by name $name not found.")
+        }
 }

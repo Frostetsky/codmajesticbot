@@ -14,4 +14,5 @@ enum class MainChannelType(
     ADMINISTRATION("┌・администрирование\uD83D\uDFE3"),
     INACTIVE("├・\uD83D\uDE34неактивность\uD83D\uDE34"),
     CREATE_PERSONAL_BRANCH("├・создание-личной-ветки♎"),
+    CAPT_PLUS("├・➕\uD83C\uDDE8\uD83C\uDDE6\uD83C\uDDF5\uD83C\uDDF9-\uD83C\uDDF5\uD83C\uDDF1\uD83C\uDDFA\uD83C\uDDF8➕"),
 }
