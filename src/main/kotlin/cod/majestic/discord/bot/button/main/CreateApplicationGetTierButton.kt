@@ -37,10 +37,10 @@ class CreateApplicationGetTierButton(
             val tier3 = discordRoleCache.getTier3()
             val tier2 = discordRoleCache.getTier2()
             val tier1 = discordRoleCache.getTier1()
-            val detectionUser = codFamilyServer.getUserById(1341880988698939403)
+            val tierChecker = codFamilyServer.getUserById(984155244294459442)
 
             val modifyDescription = embedMessage.description
-                ?.format(tier3.asMention, tier2.asMention, tier1.asMention, detectionUser.asMention)
+                ?.format(tier3.asMention, tier2.asMention, tier1.asMention, tierChecker.asMention)
 
             val embedModify = EmbedBuilder()
                 .setTitle(MainButtonType.GET_TIER.message.title)

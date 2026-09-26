@@ -26,7 +26,7 @@ enum class MainButtonType(
                         
                         • Если у вас есть какие-либо откаты, вы сразу можете претендовать на центральный ранг в нашей семье.
                         
-                        • Цвет семьи - красный. Нижняя часть тела - любого цвета.
+                        • Цвет семьи - черный. Нижняя часть тела - любого цвета.
                         
                         • ⚠️ **Строго 15+ лет.**
                         
@@ -236,5 +236,32 @@ enum class MainButtonType(
             .setColor(Color.RED)
             .build(),
         MainChannelType.INACTIVE
+    ),
+
+    ADD_OTHER_GAMES_ROLES(
+        "other_games_select_id",
+        "Выберите дополнительную роль",
+        EmbedBuilder()
+            .setTitle("Выберите дополнительную роль")
+            .setDescription("""
+                        
+                **В данном канале можно получить дополнительные роли по другим играм.**
+                
+                Доступно 6 игр и 6 ролей соответственно
+                
+                • DOTA
+                • CS
+                • TANKI
+                • MINECRAFT
+                • ROBLOX
+                • PUBG
+                
+                Роли выдаются без одобрения администрации или хай-состава семьи.
+
+                """.trimIndent()
+            )
+            .setColor(Color.RED)
+            .build(),
+        MainChannelType.ADD_OTHER_GAMES_ROLES
     )
 }

@@ -62,10 +62,10 @@ class AdministrationMapper(
 
         inactiveMembers.forEachIndexed { index, inactiveMember ->
             val user = codFamilyServer.getUserById(inactiveMember.discordUserId)
-            val description = inactiveMember.description
 
             sb.appendLine("**${index + 1}.** ${user.asMention}")
-            sb.appendLine("　┣ \uD83D\uDCCB Причина: `$description`")
+            sb.appendLine("　┣ \uD83D\uDCCB Причина: `${inactiveMember.description}`")
+            sb.appendLine("　┣ \uD83D\uDD50 Время ухода в неактив: `${inactiveMember.actionTime}`")
             sb.appendLine()
         }
 

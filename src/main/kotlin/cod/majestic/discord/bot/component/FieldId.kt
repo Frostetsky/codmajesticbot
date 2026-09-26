@@ -31,7 +31,13 @@ enum class FieldId(
     URL_VIDEOS("urlVideos", "Откаты (capt/mcl/gg):", true, "rutube/youtube", TextInputStyle.PARAGRAPH),
     SCREEN_PERSON("urlPersonScreens", "Скрин персонажей:", true, "imgur/yapix/ibb", TextInputStyle.PARAGRAPH),
 
+
+    /**
+     * Неактив
+     */
     DESCRIPTION_TO_INACTIVE("descriptionInactive", "Причина:", true, "Описание", TextInputStyle.PARAGRAPH),
+    HOURS_TO_INACTIVE("hoursInactive", "На сколько часов? (Не указывать если меньше часа)", false, "1/2/3/5", TextInputStyle.SHORT),
+    MINUTES_TO_INACTIVE("minutesInactive", "На сколько минут? (Не указывать если вы хот", false, "5/10/12/17/30", TextInputStyle.SHORT),
 
     /**
      * Личные ветки

@@ -111,11 +111,6 @@ class CreateApplicationGetTierListener(
                 listOf(Permission.VIEW_CHANNEL)
             )
             .addPermissionOverride(
-                discordRoleCache.getMain(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
                 discordRoleCache.getTest(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
@@ -127,11 +122,6 @@ class CreateApplicationGetTierListener(
             )
             .addPermissionOverride(
                 discordRoleCache.getCod(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                discordRoleCache.getP1(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
             )

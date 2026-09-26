@@ -17,8 +17,6 @@ class DiscordRoleCache(
 
     fun getMedia() = cacheRole[RoleType.MEDIA] ?: throw NoSuchElementException(messageError(RoleType.MEDIA))
 
-    fun getMain() = cacheRole[RoleType.MAIN] ?: throw NoSuchElementException(messageError(RoleType.MAIN))
-
     fun getTest() = cacheRole[RoleType.TEST] ?: throw NoSuchElementException(messageError(RoleType.TEST))
 
     fun getRecruiter() = cacheRole[RoleType.RECRUITER] ?: throw NoSuchElementException(messageError(RoleType.RECRUITER))
@@ -41,7 +39,18 @@ class DiscordRoleCache(
 
     fun getCod() = cacheRole[RoleType.COD] ?: throw NoSuchElementException(messageError(RoleType.COD))
 
-    fun getP1() = cacheRole[RoleType.P_1] ?: throw NoSuchElementException(messageError(RoleType.P_1))
+    fun getCs() = cacheRole[RoleType.CS] ?: throw NoSuchElementException(messageError(RoleType.CS))
+
+    fun getDota() = cacheRole[RoleType.DOTA] ?: throw NoSuchElementException(messageError(RoleType.DOTA))
+
+    fun getTanki() = cacheRole[RoleType.TANKI] ?: throw NoSuchElementException(messageError(RoleType.TANKI))
+
+    fun getPubg() = cacheRole[RoleType.PUBG] ?: throw NoSuchElementException(messageError(RoleType.PUBG))
+
+    fun getMinecraft() = cacheRole[RoleType.MINECRAFT] ?: throw NoSuchElementException(messageError(RoleType.MINECRAFT))
+
+    fun getRoblox() = cacheRole[RoleType.ROBLOX] ?: throw NoSuchElementException(messageError(RoleType.ROBLOX))
+
 
     override fun afterPropertiesSet() {
         initCache()

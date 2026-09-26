@@ -10,6 +10,7 @@ import cod.majestic.discord.bot.listener.details.otkat.ApproveDetailsAnalyseOtka
 import cod.majestic.discord.bot.listener.details.otkat.DetailsAnalyseOtkatListener
 import cod.majestic.discord.bot.listener.inactive.MoveToActiveListener
 import cod.majestic.discord.bot.listener.inactive.MoveToInactiveListener
+import cod.majestic.discord.bot.listener.other.games.roles.AddOtherGamesRolesListener
 import cod.majestic.discord.bot.listener.personal.branch.CreatePersonalBranchListener
 import cod.majestic.discord.bot.listener.points.GetCountMyPointsListener
 import cod.majestic.discord.bot.listener.tier.ActiveApplicationGetTierListener
@@ -59,6 +60,8 @@ class DiscordConfiguration(
         val removeWarnListener = configurableApplicationContext.getBean(RemoveWarnListener::class.java)
         val getCountMyPointsListener = configurableApplicationContext.getBean(GetCountMyPointsListener::class.java)
         val administrationListener = configurableApplicationContext.getBean(AdministrationListener::class.java)
+        val addOtherGamesRolesListener = configurableApplicationContext.getBean(AddOtherGamesRolesListener::class.java)
+        jda.addEventListener(addOtherGamesRolesListener)
         jda.addEventListener(administrationListener)
         jda.addEventListener(moveToActiveListener)
         jda.addEventListener(moveToInactiveListener)

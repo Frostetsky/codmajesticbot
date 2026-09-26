@@ -9,14 +9,19 @@ enum class RoleType(
     HIGH("HIGH"),
     RECRUITER("RECRUIT"),
     MEDIA("MEDIA"),
-    MAIN("MAIN"),
     TIER_1("TIER 1"),
     TIER_2("TIER 2"),
     TIER_3("TIER 3"),
     TEST("TEST"),
     INACTIVE("INACTIVE"),
     COD("COD"),
-    P_1("P1"),
+    CS("CS"),
+    DOTA("DOTA"),
+    PUBG("PUBG"),
+    MINECRAFT("MINECRAFT"),
+    ROBLOX("ROBLOX"),
+    TANKI("TANKI"),
+
     WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА");
 
     companion object {
