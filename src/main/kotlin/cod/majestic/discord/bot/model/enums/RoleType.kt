@@ -12,17 +12,9 @@ enum class RoleType(
     TIER_CHECKER("TIER CHECKER"),
     TIER_1("TIER 1"),
     TIER_2("TIER 2"),
-    TIER_3("TIER 3"),
-    TEST("TEST"),
     INACTIVE("INACTIVE"),
     COD("COD"),
     PP("P-P"),
-    CS("CS"),
-    DOTA("DOTA"),
-    PUBG("PUBG"),
-    MINECRAFT("MINECRAFT"),
-    ROBLOX("ROBLOX"),
-    TANKI("TANKI"),
 
     WAITING_CALL("ОЖИДАНИЕ ОБЗВОНА");
 

@@ -112,11 +112,6 @@ class CreatePersonalBranchListener(
                 listOf(Permission.VIEW_CHANNEL)
             )
             .addPermissionOverride(
-                discordRoleCache.getTier3(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
                 discordRoleCache.getTier2(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
@@ -128,11 +123,6 @@ class CreatePersonalBranchListener(
             )
             .addPermissionOverride(
                 discordRoleCache.getWaitingCall(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                discordRoleCache.getTest(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
             )

@@ -29,8 +29,7 @@ class ActiveApplicationGetTierListener : ListenerAdapter() {
         val label: String
     ) {
         TIER_1(ComponentId.APPROVE_TIER_1, ModalId.APPROVE_TIER_1, "TIER 1"),
-        TIER_2(ComponentId.APPROVE_TIER_2, ModalId.APPROVE_TIER_2, "TIER 2"),
-        TIER_3(ComponentId.APPROVE_TIER_3, ModalId.APPROVE_TIER_3, "TIER 3")
+        TIER_2(ComponentId.APPROVE_TIER_2, ModalId.APPROVE_TIER_2, "TIER 2")
     }
 
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
@@ -117,8 +116,7 @@ class ActiveApplicationGetTierListener : ListenerAdapter() {
 
     private fun rolesFor(action: TierAction): Pair<Role, List<Role>> = when (action) {
         TierAction.TIER_1 -> discordRoleCache.getTier1() to listOf(discordRoleCache.getTier2())
-        TierAction.TIER_2 -> discordRoleCache.getTier2() to listOf(discordRoleCache.getTier3())
-        TierAction.TIER_3 -> discordRoleCache.getTier3() to emptyList()
+        TierAction.TIER_2 -> discordRoleCache.getTier2() to emptyList()
     }
 
     private fun hasTierPermissions(member: Member): Boolean {

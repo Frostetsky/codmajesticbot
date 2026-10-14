@@ -21,8 +21,6 @@ class DiscordRoleCache(
 
     fun getPp() = cacheRole[RoleType.PP] ?: throw NoSuchElementException(messageError(RoleType.PP))
 
-    fun getTest() = cacheRole[RoleType.TEST] ?: throw NoSuchElementException(messageError(RoleType.TEST))
-
     fun getRecruiter() = cacheRole[RoleType.RECRUITER] ?: throw NoSuchElementException(messageError(RoleType.RECRUITER))
 
     fun getDepLeader() = cacheRole[RoleType.DEPUTY_LEADER] ?: throw NoSuchElementException(messageError(RoleType.DEPUTY_LEADER))
@@ -37,23 +35,9 @@ class DiscordRoleCache(
 
     fun getTier2() = cacheRole[RoleType.TIER_2] ?: throw NoSuchElementException(messageError(RoleType.TIER_2))
 
-    fun getTier3() = cacheRole[RoleType.TIER_3] ?: throw NoSuchElementException(messageError(RoleType.TIER_3))
-
     fun getInactive() = cacheRole[RoleType.INACTIVE] ?: throw NoSuchElementException(messageError(RoleType.INACTIVE))
 
     fun getCod() = cacheRole[RoleType.COD] ?: throw NoSuchElementException(messageError(RoleType.COD))
-
-    fun getCs() = cacheRole[RoleType.CS] ?: throw NoSuchElementException(messageError(RoleType.CS))
-
-    fun getDota() = cacheRole[RoleType.DOTA] ?: throw NoSuchElementException(messageError(RoleType.DOTA))
-
-    fun getTanki() = cacheRole[RoleType.TANKI] ?: throw NoSuchElementException(messageError(RoleType.TANKI))
-
-    fun getPubg() = cacheRole[RoleType.PUBG] ?: throw NoSuchElementException(messageError(RoleType.PUBG))
-
-    fun getMinecraft() = cacheRole[RoleType.MINECRAFT] ?: throw NoSuchElementException(messageError(RoleType.MINECRAFT))
-
-    fun getRoblox() = cacheRole[RoleType.ROBLOX] ?: throw NoSuchElementException(messageError(RoleType.ROBLOX))
 
 
     override fun afterPropertiesSet() {

@@ -76,7 +76,7 @@ class ActiveApplicationInFamilyListener(
 
                 guild.modifyMemberRoles(
                     targetMember,
-                    listOf(discordRoleCache.getTest(), discordRoleCache.getCod(), discordRoleCache.getPp()),
+                    listOf(discordRoleCache.getCod(), discordRoleCache.getPp()),
                     listOf(discordRoleCache.getWaitingCall())
                 ).queue()
 

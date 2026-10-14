@@ -236,32 +236,5 @@ enum class MainButtonType(
             .setColor(Color.RED)
             .build(),
         MainChannelType.INACTIVE
-    ),
-
-    ADD_OTHER_GAMES_ROLES(
-        "other_games_select_id",
-        "Выберите дополнительную роль",
-        EmbedBuilder()
-            .setTitle("Выберите дополнительную роль")
-            .setDescription("""
-                        
-                **В данном канале можно получить дополнительные роли по другим играм.**
-                
-                Доступно 6 игр и 6 ролей соответственно
-                
-                • DOTA
-                • CS
-                • TANKI
-                • MINECRAFT
-                • ROBLOX
-                • PUBG
-                
-                Роли выдаются без одобрения администрации или хай-состава семьи.
-
-                """.trimIndent()
-            )
-            .setColor(Color.RED)
-            .build(),
-        MainChannelType.ADD_OTHER_GAMES_ROLES
     )
 }

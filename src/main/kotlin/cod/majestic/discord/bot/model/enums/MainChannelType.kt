@@ -14,6 +14,5 @@ enum class MainChannelType(
     ADMINISTRATION("┌・администрирование\uD83D\uDFE3"),
     INACTIVE("├・\uD83D\uDE34неактивность\uD83D\uDE34"),
     CREATE_PERSONAL_BRANCH("├・создание-личной-ветки♎"),
-    ADD_OTHER_GAMES_ROLES("├・\uD83D\uDCA5-получение-ролей\uD83D\uDCA5"),
     CAPT_PLUS("├・➕\uD83C\uDDE8\uD83C\uDDE6\uD83C\uDDF5\uD83C\uDDF9-\uD83C\uDDF5\uD83C\uDDF1\uD83C\uDDFA\uD83C\uDDF8➕"),
 }

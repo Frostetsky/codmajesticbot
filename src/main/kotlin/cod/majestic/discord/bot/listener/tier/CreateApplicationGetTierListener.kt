@@ -20,8 +20,6 @@ class CreateApplicationGetTierListener(
     private val personalBranchService: PersonalBranchService
 ) : ListenerAdapter() {
 
-    private val tierRoles = setOf(RoleCod.TIER_1.nameInDiscord, RoleCod.TIER_2.nameInDiscord, RoleType.TIER_3.nameInDiscord)
-
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
         if (event.componentId != ComponentId.CREATE_APPLICATION_GET_TIER.getComponentId()) return
 
@@ -96,11 +94,6 @@ class CreateApplicationGetTierListener(
                 listOf(Permission.VIEW_CHANNEL)
             )
             .addPermissionOverride(
-                discordRoleCache.getTier3(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
                 discordRoleCache.getTier2(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
@@ -112,11 +105,6 @@ class CreateApplicationGetTierListener(
             )
             .addPermissionOverride(
                 discordRoleCache.getWaitingCall(),
-                null,
-                listOf(Permission.VIEW_CHANNEL)
-            )
-            .addPermissionOverride(
-                discordRoleCache.getTest(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)
             )
