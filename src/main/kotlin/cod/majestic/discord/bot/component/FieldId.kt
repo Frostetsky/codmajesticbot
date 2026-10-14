@@ -33,6 +33,16 @@ enum class FieldId(
 
 
     /**
+     * Отказ в заявке
+     */
+    REJECT_REASON("rejectReason", "Причина отказа:", true, "Опишите, почему заявка отклонена", TextInputStyle.PARAGRAPH),
+
+    /**
+     * Тиры
+     */
+    TIER_COMMENT("tierComment", "Комментарий к выдаче тира:", false, "Необязательно", TextInputStyle.PARAGRAPH),
+
+    /**
      * Неактив
      */
     DESCRIPTION_TO_INACTIVE("descriptionInactive", "Причина:", true, "Описание", TextInputStyle.PARAGRAPH),

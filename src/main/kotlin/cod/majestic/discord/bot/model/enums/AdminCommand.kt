@@ -6,5 +6,7 @@ enum class AdminCommand {
 
     ADD_POINT_TO_MEMBER,
 
-    GET_INACTIVE_MEMBER
+    GET_INACTIVE_MEMBER,
+
+    CLEAR_MESSAGE
 }

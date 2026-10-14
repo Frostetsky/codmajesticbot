@@ -66,6 +66,7 @@ class MoveToInactiveListener(
             actionTime = LocalDateTime.now(),
         )
 
+        inactiveMemberService.deleteByDiscordUserId(userId)
         inactiveMemberService.save(inactiveMember)
 
         event.hook.setEphemeral(true)

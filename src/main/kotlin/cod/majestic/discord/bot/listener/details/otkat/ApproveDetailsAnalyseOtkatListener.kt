@@ -26,7 +26,7 @@ class ApproveDetailsAnalyseOtkatListener : ListenerAdapter() {
 
     private fun hasLeaderPermissions(member: Member): Boolean {
         return member.roles.any {
-            it.name == RoleType.LEADER.nameInDiscord || it.name == RoleType.DEPUTY_LEADER.nameInDiscord
+            it.name == RoleType.LEADER.nameInDiscord || it.name == RoleType.DEPUTY_LEADER.nameInDiscord || it.name == RoleType.TIER_CHECKER.nameInDiscord
         }
     }
 

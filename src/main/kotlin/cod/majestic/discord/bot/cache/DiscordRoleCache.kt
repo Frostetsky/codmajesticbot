@@ -17,6 +17,10 @@ class DiscordRoleCache(
 
     fun getMedia() = cacheRole[RoleType.MEDIA] ?: throw NoSuchElementException(messageError(RoleType.MEDIA))
 
+    fun getTierChecker() = cacheRole[RoleType.TIER_CHECKER] ?: throw NoSuchElementException(messageError(RoleType.TIER_CHECKER))
+
+    fun getPp() = cacheRole[RoleType.PP] ?: throw NoSuchElementException(messageError(RoleType.PP))
+
     fun getTest() = cacheRole[RoleType.TEST] ?: throw NoSuchElementException(messageError(RoleType.TEST))
 
     fun getRecruiter() = cacheRole[RoleType.RECRUITER] ?: throw NoSuchElementException(messageError(RoleType.RECRUITER))

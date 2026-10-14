@@ -1,6 +1,7 @@
 package cod.majestic.discord.bot.mapper
 
 import cod.majestic.discord.bot.dto.AddPointToMemberRequest
+import cod.majestic.discord.bot.dto.ClearMessageRequest
 import cod.majestic.discord.bot.dto.GetLastFamilyRequest
 import cod.majestic.discord.bot.model.InactiveMember
 import cod.majestic.discord.bot.model.enums.EventCrimeServer
@@ -9,6 +10,7 @@ import cod.majestic.discord.bot.model.projection.CrimeStatisticProjection
 import cod.majestic.discord.bot.server.CodFamilyServer
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Component
@@ -31,6 +33,20 @@ class AdministrationMapper(
         return AddPointToMemberRequest(asMentionUser, typeRp, points, actionTime, whoUserAsMention)
     }
 
+
+    fun toClearMessageRequest(splitsString: Array<String>): ClearMessageRequest {
+        val usage = "Использование: `CLEAR_MESSAGE #канал количество` (от 1 до $MAX_CLEAR_MESSAGES)."
+
+        val channelId = splitsString.getOrNull(1)
+            ?.let { Regex("^<#(\\d+)>$").find(it)?.groupValues?.get(1)?.toLongOrNull() }
+            ?: throw IllegalArgumentException("Не удалось определить канал. $usage")
+
+        val count = splitsString.getOrNull(2)?.toIntOrNull()
+            ?.takeIf { it in 1..MAX_CLEAR_MESSAGES }
+            ?: throw IllegalArgumentException("Некорректное количество сообщений. $usage")
+
+        return ClearMessageRequest(channelId, count)
+    }
 
     fun toDiscordMessage(listCrimeEvent: List<CrimeStatisticProjection>, days: Long): String {
         if (listCrimeEvent.isEmpty()) return "```📭 Данные отсутствуют```"
@@ -55,20 +71,27 @@ class AdministrationMapper(
     }
 
     fun toDiscordMessage(inactiveMembers: Iterable<InactiveMember>): String {
-        if (!inactiveMembers.iterator().hasNext()) return "```📭 Данные отсутствуют```"
+        val sorted = inactiveMembers.sortedBy { it.actionTime }
+        if (sorted.isEmpty()) return "```📭 Данные отсутствуют```"
 
         val sb = StringBuilder()
-        sb.appendLine("**📊 Неактивные члены семьи на текущий момент:**\n")
+        sb.appendLine("**😴 Неактивные члены семьи на текущий момент: ${sorted.size}**\n")
 
-        inactiveMembers.forEachIndexed { index, inactiveMember ->
-            val user = codFamilyServer.getUserById(inactiveMember.discordUserId)
+        // Упоминание строим из id напрямую: без REST-запроса на каждого пользователя,
+        // поэтому вышедшие/удалённые аккаунты больше не роняют всю команду.
+        sorted.forEachIndexed { index, inactiveMember ->
+            val epoch = inactiveMember.actionTime.atZone(ZoneId.systemDefault()).toEpochSecond()
 
-            sb.appendLine("**${index + 1}.** ${user.asMention}")
-            sb.appendLine("　┣ \uD83D\uDCCB Причина: `${inactiveMember.description}`")
-            sb.appendLine("　┣ \uD83D\uDD50 Время ухода в неактив: `${inactiveMember.actionTime}`")
+            sb.appendLine("**${index + 1}.** <@${inactiveMember.discordUserId}>")
+            sb.appendLine("　┣ \uD83D\uDCCB Причина: `${inactiveMember.description.replace('`', '\'')}`")
+            sb.appendLine("　┗ \uD83D\uDD50 В неактиве с: <t:$epoch:f> (<t:$epoch:R>)")
             sb.appendLine()
         }
 
         return sb.toString()
+    }
+
+    private companion object {
+        const val MAX_CLEAR_MESSAGES = 1000
     }
 }

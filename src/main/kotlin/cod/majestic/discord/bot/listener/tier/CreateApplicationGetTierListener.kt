@@ -81,6 +81,11 @@ class CreateApplicationGetTierListener(
                 null
             )
             .addPermissionOverride(
+                discordRoleCache.getTierChecker(),
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
+                null
+            )
+            .addPermissionOverride(
                 discordRoleCache.getRecruiter(),
                 null,
                 listOf(Permission.VIEW_CHANNEL)

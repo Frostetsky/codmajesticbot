@@ -18,6 +18,12 @@ enum class ModalId(
     DETAILS_ANALYSE_OTKAT("details_analyse_otkat_id", "Запрос на разбор отката."),
     ADD_POINT_TO_MEMBER("add_point_to_member_id", "Выдаваемое количество баллов."),
 
+    REJECT_APPLICATION_IN_FAMILY("reject_application_in_family_modal_id", "Отказ в заявке в семью."),
+
+    APPROVE_TIER_1("approve_tier_1_modal_id", "Выдача TIER 1."),
+    APPROVE_TIER_2("approve_tier_2_modal_id", "Выдача TIER 2."),
+    APPROVE_TIER_3("approve_tier_3_modal_id", "Выдача TIER 3."),
+
     CREATE_BRANCH("create_branch_id", "Название личной ветки (Ваше имя в игре)");
 
     fun getModalId() = modalId
