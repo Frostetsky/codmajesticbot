@@ -21,6 +21,14 @@ class PersonalBranchServiceImpl(
     override fun existsByDiscordUserId(discordUserId: Long): Boolean =
         personalBranchRepository.existsByDiscordUserId(discordUserId)
 
+    override fun findByDiscordChannelId(discordChannelId: Long): PersonalBranch =
+        personalBranchRepository.findByDiscordChannelId(discordChannelId).orElseThrow {
+            NoSuchElementException("Канал <#$discordChannelId> не является личной веткой.")
+        }
+
+    override fun delete(personalBranch: PersonalBranch) =
+        personalBranchRepository.delete(personalBranch)
+
     override fun findByBranchName(name: String): PersonalBranch =
         personalBranchRepository.findByBranchName(name).orElseThrow {
             throw NoSuchElementException("Branch by name $name not found.")

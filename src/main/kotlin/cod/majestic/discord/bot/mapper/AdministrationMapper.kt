@@ -2,6 +2,7 @@ package cod.majestic.discord.bot.mapper
 
 import cod.majestic.discord.bot.dto.AddPointToMemberRequest
 import cod.majestic.discord.bot.dto.ClearMessageRequest
+import cod.majestic.discord.bot.dto.DeletePersonalBranchRequest
 import cod.majestic.discord.bot.dto.GetLastFamilyRequest
 import cod.majestic.discord.bot.model.InactiveMember
 import cod.majestic.discord.bot.model.enums.EventCrimeServer
@@ -46,6 +47,16 @@ class AdministrationMapper(
             ?: throw IllegalArgumentException("Некорректное количество сообщений. $usage")
 
         return ClearMessageRequest(channelId, count)
+    }
+
+    fun toDeletePersonalBranchRequest(splitsString: Array<String>): DeletePersonalBranchRequest {
+        val usage = "Использование: `DELETE_PERSONAL_BRANCH #личная-ветка`."
+
+        val channelId = splitsString.getOrNull(1)
+            ?.let { Regex("^<#(\\d+)>$").find(it)?.groupValues?.get(1)?.toLongOrNull() }
+            ?: throw IllegalArgumentException("Не удалось определить личную ветку. $usage")
+
+        return DeletePersonalBranchRequest(channelId)
     }
 
     fun toDiscordMessage(listCrimeEvent: List<CrimeStatisticProjection>, days: Long): String {

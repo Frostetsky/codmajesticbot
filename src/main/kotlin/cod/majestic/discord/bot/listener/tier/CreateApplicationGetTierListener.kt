@@ -4,6 +4,7 @@ import cod.majestic.discord.bot.cache.DiscordRoleCache
 import cod.majestic.discord.bot.component.ComponentId
 import cod.majestic.discord.bot.model.enums.RoleType
 import cod.majestic.discord.bot.server.CodFamilyServer
+import cod.majestic.discord.bot.service.FamilyMemberService
 import cod.majestic.discord.bot.service.PersonalBranchService
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Role
@@ -17,7 +18,8 @@ import cod.majestic.discord.bot.model.enums.RoleType as RoleCod
 class CreateApplicationGetTierListener(
     private val codFamilyServer: CodFamilyServer,
     private val discordRoleCache: DiscordRoleCache,
-    private val personalBranchService: PersonalBranchService
+    private val personalBranchService: PersonalBranchService,
+    private val familyMemberService: FamilyMemberService
 ) : ListenerAdapter() {
 
     override fun onButtonInteraction(event: ButtonInteractionEvent) {
@@ -26,7 +28,13 @@ class CreateApplicationGetTierListener(
         val guild = event.guild ?: return
         val member = event.member ?: return
 
-        val categoryGetTier = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на получение тиров" }!!
+        val categoryGetTier = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на получение тиров" }
+        if (categoryGetTier == null) {
+            event.reply("❌ Не найдена категория «Заявки на получение тиров». Сообщите администрации бота.")
+                .setEphemeral(true)
+                .queue()
+            return
+        }
         val existingChannel = guild.textChannels
             .firstOrNull { it.name == "\uD83D\uDEB9・заявка-на-получение-тира-${member.user.id}" }
 
@@ -41,6 +49,21 @@ class CreateApplicationGetTierListener(
 
         if (tier1Role) {
             event.reply("У тебя максимально возможный тир %s".format(RoleCod.TIER_1.nameInDiscord))
+                .setEphemeral(true)
+                .queue()
+            return
+        }
+
+        // Без авторизации нет записи о члене семьи, без личной ветки нечего прикладывать к заявке.
+        if (!familyMemberService.existsByDiscordUserId(member.user.idLong)) {
+            event.reply("❌ Вы не авторизованы на сервере. Сначала нажмите кнопку авторизации, затем повторите заявку.")
+                .setEphemeral(true)
+                .queue()
+            return
+        }
+
+        if (!personalBranchService.existsByDiscordUserId(member.user.idLong)) {
+            event.reply("❌ У вас нет личной ветки. Сначала создайте личную ветку, затем повторите заявку на тир.")
                 .setEphemeral(true)
                 .queue()
             return

@@ -2,6 +2,7 @@ package cod.majestic.discord.bot.listener.admin.strategy
 
 import cod.majestic.discord.bot.dto.AddPointToMemberRequest
 import cod.majestic.discord.bot.dto.ClearMessageRequest
+import cod.majestic.discord.bot.dto.DeletePersonalBranchRequest
 import cod.majestic.discord.bot.dto.GetInactiveMemberRequest
 import cod.majestic.discord.bot.dto.GetLastFamilyRequest
 import cod.majestic.discord.bot.mapper.AdministrationMapper
@@ -39,6 +40,10 @@ class CommandDispatcher(
             AdminCommand.CLEAR_MESSAGE ->
                 (commandHandler as CommandHandler<ClearMessageRequest>)
                     .execute(administrationMapper.toClearMessageRequest(splitMessage))
+
+            AdminCommand.DELETE_PERSONAL_BRANCH ->
+                (commandHandler as CommandHandler<DeletePersonalBranchRequest>)
+                    .execute(administrationMapper.toDeletePersonalBranchRequest(splitMessage))
         }
     }
 }

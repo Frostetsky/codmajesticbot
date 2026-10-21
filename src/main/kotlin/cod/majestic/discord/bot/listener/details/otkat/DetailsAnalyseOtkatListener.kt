@@ -57,7 +57,13 @@ class DetailsAnalyseOtkatListener(
 
         val urlVideos = event.getValue(FieldId.URL_VIDEOS.getId())?.asString!!
 
-        val categoryApplicationDetailsOtkat = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на подробный разбор отката"}!!
+        val categoryApplicationDetailsOtkat = guild.categories.firstOrNull { it.name == "\uD83D\uDD2F・Заявки на подробный разбор отката" }
+        if (categoryApplicationDetailsOtkat == null) {
+            event.reply("❌ Не найдена категория «Заявки на подробный разбор отката». Сообщите администрации бота.")
+                .setEphemeral(true)
+                .queue()
+            return
+        }
         val channelName = "\uD83E\uDDE9・заявка-на-разбор-отката-${member.id}"
 
         categoryApplicationDetailsOtkat.createTextChannel(channelName)
@@ -83,6 +89,11 @@ class DetailsAnalyseOtkatListener(
             )
             .addPermissionOverride(
                 discordRoleCache.getHigh(),
+                listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
+                null
+            )
+            .addPermissionOverride(
+                discordRoleCache.getTierChecker(),
                 listOf(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_ADD_REACTION, Permission.CREATE_PUBLIC_THREADS, Permission.CREATE_PRIVATE_THREADS, Permission.MESSAGE_SEND_IN_THREADS, Permission.MESSAGE_ATTACH_FILES),
                 null
             )

@@ -14,4 +14,6 @@ interface PersonalBranchRepository : CrudRepository<PersonalBranch, UUID> {
     fun existsByDiscordUserId(discordUserId: Long): Boolean
 
     fun findByBranchName(branchName: String): Optional<PersonalBranch>
+
+    fun findByDiscordChannelId(discordChannelId: Long): Optional<PersonalBranch>
 }

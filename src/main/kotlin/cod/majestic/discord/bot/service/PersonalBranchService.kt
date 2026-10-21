@@ -12,4 +12,8 @@ interface PersonalBranchService {
     fun existsByDiscordUserId(discordUserId: Long): Boolean
 
     fun findByBranchName(name: String): PersonalBranch
+
+    fun findByDiscordChannelId(discordChannelId: Long): PersonalBranch
+
+    fun delete(personalBranch: PersonalBranch)
 }

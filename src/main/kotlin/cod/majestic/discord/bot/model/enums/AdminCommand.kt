@@ -1,6 +1,9 @@
 package cod.majestic.discord.bot.model.enums
 
-enum class AdminCommand {
+enum class AdminCommand(
+    /** Роли, которым разрешена команда. Пустое множество — ограничений по ролям нет. */
+    val allowedRoles: Set<RoleType> = emptySet()
+) {
 
     GET_ACTIVE_OF_MEMBER,
 
@@ -8,5 +11,9 @@ enum class AdminCommand {
 
     GET_INACTIVE_MEMBER,
 
-    CLEAR_MESSAGE
+    CLEAR_MESSAGE,
+
+    DELETE_PERSONAL_BRANCH(
+        setOf(RoleType.TIER_CHECKER, RoleType.HIGH, RoleType.DEPUTY_LEADER, RoleType.LEADER)
+    )
 }

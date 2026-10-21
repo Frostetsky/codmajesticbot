@@ -20,7 +20,8 @@ class AdministrationListener(
     private val silentMentionCommands = setOf(
         AdminCommand.GET_INACTIVE_MEMBER,
         AdminCommand.GET_ACTIVE_OF_MEMBER,
-        AdminCommand.CLEAR_MESSAGE
+        AdminCommand.CLEAR_MESSAGE,
+        AdminCommand.DELETE_PERSONAL_BRANCH
     )
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
@@ -30,6 +31,17 @@ class AdministrationListener(
 
         val commandName = event.message.contentRaw.trim().split(Regex("\\s+")).firstOrNull()?.uppercase() ?: return
         val command = AdminCommand.entries.firstOrNull { it.name == commandName } ?: return
+
+        if (command.allowedRoles.isNotEmpty()) {
+            val hasAccess = event.member?.roles?.any { role ->
+                command.allowedRoles.any { it.nameInDiscord == role.name }
+            } ?: false
+
+            if (!hasAccess) {
+                event.channel.sendMessage("❌ Недостаточно прав для выполнения `$commandName`.").queue()
+                return
+            }
+        }
 
         try {
             val (channel, text) = commandDispatcher.execute(event)
